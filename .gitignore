@@ -1,0 +1,21 @@
+# LaTeX
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.fmt
+*.fmtidx
+*.gz
+*.log
+*.out
+*.pdf
+*.synctex.gz
+*.toc
+*.xdv
+*-converted-to.pdf
+*.latexmain
+
+# LaTeX directories
+build/
+dist/
