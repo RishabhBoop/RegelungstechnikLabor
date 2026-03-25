@@ -1,0 +1,42 @@
+%----------------------------------------------------------------------------------------
+%	DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+\documentclass[a4paper,11pt]{LaborBericht}
+
+% ----------------------------------------------------------------------------------------
+%	DOCUMENT METADATA AND VARIABLES                                                                    
+% ----------------------------------------------------------------------------------------
+\title{Versuch 03 - Temperaturmess- \texorpdfstring{\\}{ } technik und Wäremeableitung}
+\author{Rishabh Venugopal \\ Benedikt Blattmann}
+\date{\today}
+\matrikelnummer{96535 (Rishabh), 96003 (Benedikt)}
+\betreuer{Prof. Dr. rer. nat. Klaus Wolfrum}
+% Optional - only if you need to override defaults
+%\facultyname{Elektro- und Informationstechnik}
+%\studiengang{Elektro- und Informationstechnik (Bachelor)}
+%\titlePageGenderning{false} % Default is false, so it will be Betreuer instead of Betreuer*in. Change to true to enable genderning; ONLY ON TITLE PAGE
+\berichttyp{Laborbericht Messtechnik}
+
+% Syntax: \DeclareCaptionType{<Umgebung>}[<Bezeichnung im Abbildungsverzeichnis>][<Bezeichnung in der Überschrift>]
+\DeclareCaptionType{Schaltung}[Schaltung][Schaltung]
+
+% ----------------------------------------------------------------------------------------
+% 	Begin of Document                                                                    
+% ----------------------------------------------------------------------------------------
+\begin{document}
+
+
+%%| TABLE OF CONTENTS |%%
+\maketitle
+\tableofcontents
+\newpage
+
+%%| TABLE OF CONTENTS |%%
+\input{sections/einleitung.tex}
+\input{sections/vorbereitung.tex}
+\input{sections/versuchsaufbau.tex}
+\input{sections/analyse.tex}
+\input{sections/fehlerrechnung.tex}
+\input{sections/fazit.tex}
+
+\end{document}

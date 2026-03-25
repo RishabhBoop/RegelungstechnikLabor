@@ -1,0 +1,297 @@
+
+\section{Vorbereitung}
+\subsection{Aufgabe 1 - Temperaturabhängige Widerstände}
+Um eine Temperatur in eine Elektrische Größe umzuwandeln, können temperaturabhängige Widerstände, auch Thermistor genannt, verwendet werden.
+Das sind Widerstände, deren Widerstandswert sich mit der Temperatur ändert. In Schaltung \ref{fig:vorbereitung_1} ist eine Messschaltung dargestellt, mit dem man eine Messung des Widerstandes $R_T$ durchführen kann.
+Hierbei wird dazu ein Spannungsteiler verwendet, der aus einem festen Widerstand $R_0$ und dem temperaturabhängigen Widerstand $R_T$ besteht.
+
+\begin{Schaltung}[H]
+    \centering
+    \begin{circuitikz}[european]
+        % Coordinates: Starting from (0, 3) for the top of R0
+
+        % Top Input Terminal (extended to the left)
+        \draw (-2,3) to[short, o-] (0,3);
+
+        % Resistor R0
+        \draw (0,3) to[R, -, name=R0, label=$R_0$] (0,1.5) coordinate (mid);
+        %\node[right=2pt] at (0,2.25) {$R_0$}; % R0 label placement
+
+        % Resistor RT (Variable Resistor)
+        \draw (mid) to[thermistor, -, name=RT, label=$R_T$, invert] (0,0);
+
+        % Bottom Input Terminal (extended to the left)
+        \draw (-2,0) to[short, o-] (0,0);
+
+        % Output Terminals
+        % Mid Connection Point
+        \node[black, fill=black, inner sep=1.5pt, circle] at (mid) {};
+        \draw (mid) to[short, -o] (2,1.5); % Top output terminal
+
+        % Bottom Connection Point
+        \node[black, fill=black, inner sep=1.5pt, circle] at (0,0) {};
+        \draw (0,0) to[short, -o] (2,0);   % Bottom output terminal
+
+        % U_0 Voltage Arrow (Input - specifically placed to the left)
+        \draw[->] (-1.5,2.5) -- (-1.5,0.5) node[pos=0.5, left] {$U_0$};
+
+        % U_T Voltage Arrow (Output - specifically placed to the right, pointing down)
+        \draw[->] (2.5,1.25) -- (2.5,0.25) node[pos=0.5, right] {$U_T$};
+
+    \end{circuitikz}
+    \caption{Messschaltung für temperaturabhängigen Widerstand $R_T$}
+    \label{fig:vorbereitung_1}
+\end{Schaltung}
+
+Hierzu muss $R_0$ korrekt dimensioniert werden.
+Es gilt den folgenden Spannungsteiler:
+\begin{equation}
+    U_T = U_0 \cdot \frac{R_T}{R_0 + R_T}
+\end{equation}
+Jetzt leiten wir $U_T$ nach $R_T$ ab, um die temperaturabhängige Spannungsänderung zu bestimmen:
+\begin{equation}
+    \label{eqn:temp_spannungsaenderung}
+    \frac{\partial U_T}{\partial R_T} = \frac{(R_T+R_0)U_0-U_0R_T}{(R_T+R_0)^2} = U_0 \frac{R_0}{(R_T+R_0)^2}
+\end{equation}
+Um den Wert von $R_0$ zu ermitteln, bei dem die temperaturabhängige Spannungsänderung maximal ist, leiten wir die Gleichung \ref{eqn:temp_spannungsaenderung} nach $R_0$ ab und setzen diese gleich Null:
+\begin{equation}
+    \frac{\partial}{\partial R_0}\left( U_0 \frac{R_0}{(R_T+R_0)^2} \right) = U_0 \frac{R_T-R_0}{(R_T+R_0)^3}
+\end{equation}
+\begin{align}
+    \Rightarrow U_0 \frac{R_T-R_0}{(R_T+R_0)^3} & = 0           \\
+    R_T - R_0                                   & = 0 \nonumber \\
+    \boxed{R_0 = R_T} \nonumber
+\end{align}
+
+Daraus folgt, dass die maximale temperaturabhängige Spannungsänderung sich bei einem Widerstandswert von $R_0 = R_T$ ergibt.
+
+\subsection{Aufgabe 2 - PTC, NTC}
+\subsubsection{pt100 Widerstand}
+Der Pt100 ist ein Platin-Widerstand, welches bei seiner Bezugstemperatur (im Labor \SI{0}{\degreeCelsius}) einen Widerstand von \SI{100}{\ohm} aufweist.
+Um nun den Widerstand bei einer Temperaturänderung von 1K zu bestimmen, verwenden wir die Formel eines PTC-Widerstands.
+\begin{equation}
+    R_{\vartheta} = R_0 \left[
+        1
+        + \num{3.90802e-3} \, \frac{\vartheta - \vartheta_0}{\mathrm{K}}
+        - \num{5.80195e-7} \, \frac{(\vartheta - \vartheta_0)^2}{\mathrm{K^2}}
+        \right]
+\end{equation}
+
+Bei PTC-Widerständen kann man in dem Temperaturbereich von \SI{0}{\degreeCelsius} bis \SI{850}{\degreeCelsius} die Kennlinie linearisieren.
+\begin{figure}[H]
+    \includegraphics[width=\linewidth]{vorbereitung_kennlinie_pt100.png}
+\end{figure}
+Unter dieser Linearisierung ergibt sich eine Widerstandsänderung pro Kelvin von $\SI{0.375}{\frac{\ohm}{\kelvin}}$. \\
+Daraus folgt: \\
+$R_{25} = \SI{100}{\ohm}$ \\
+$R_{26} = \SI{100.375}{\ohm}$ \\
+
+Die relative Spannungsänderung $\frac{\Delta U_T}{U_0}$ ergibt sich damit zu:
+\begin{align}
+    \frac{\Delta U_T}{U_0} & = \frac{R_{T2}}{R_0 + R_{T2}} - \frac{R_{T1}}{R_0 + R_{T1}}          \nonumber                                            \\
+                           & = \frac{\SI{100.375}{\ohm}}{\SI{100}{\ohm} + \SI{100.375}{\ohm}} - \frac{\SI{100}{\ohm}}{\SI{100}{\ohm} + \SI{100}{\ohm}} \\
+                           & = \num{935.745e-6} \nonumber                                                                                              \\
+                           & = \SI{0.09}{\percent}
+\end{align}
+
+\subsubsection{Thermistor Typ B57863S863}
+Unser Thermistor ist ein NTC-Widerstand, dessen Widerstand mit steigender Temperatur abnimmt.
+In diesem Fall ist die Materialkonstante $B = \SI{3988}{\kelvin}$ und der Nennwiderstand $R_N = \SI{10}{\kilo\ohm}$ bei einer Nenntemperatur von $\vartheta = \SI{25}{\degreeCelsius}$. \\
+Allgemein gilt für NTC-Widerstände die folgende Formel:
+\begin{equation}
+    R_T = R_N \cdot e^{B \left( \frac{1}{T} - \frac{1}{T_N} \right)}
+\end{equation}
+Damit lassen sich auch die Widerstände für die Temperaturen \SI{25}{\degreeCelsius} und \SI{26}{\degreeCelsius} berechnen:
+\begin{align*}
+    R_{26}             & = \SI{10}{\kilo\ohm} \cdot e^{3988 \left( \frac{1}{299.15 \, \mathrm{K}} - \frac{1}{298.15 \, \mathrm{K}} \right)} = \SI{9.562}{\kilo\ohm}
+    \\
+    \frac{U_{26}}{U_0} & = \frac{R_{26}}{R_{26} + R_0} = \frac{\SI{9.562}{\kilo\ohm}}{\SI{9.562}{\kilo\ohm} + \SI{10}{\kilo\ohm}} = \num{0.4888} = \SI{48.88}{\percent} \\
+    \\
+    \frac{U_{25}}{U_0} & = \frac{R_{25}}{R_{25} + R_0} = \frac{\SI{10}{\kilo\ohm}}{\SI{10}{\kilo\ohm} + \SI{10}{\kilo\ohm}} = \num{0.5} = \SI{50}{\percent}             \\
+\end{align*}
+Die relative Spannungsänderung $\frac{\Delta U_T}{U_0}$ ergibt sich damit zu:
+\begin{align*}
+    \frac{\Delta U_T}{U_0} & = \frac{U_{26} - U_{25}}{U_0} = \num{0.4888} - \num{0.5} = -\num{11.19e-3} = -\SI{1.119}{\percent}
+\end{align*}
+
+\subsection{Aufgabe 3 - Auf- und Entladevorgang einer RC-Kombination}
+Aufladevorgang:
+\begin{equation}
+    U_C(t) = U_0 \left( 1 - e^{-\frac{t}{RC}} \right)
+\end{equation}
+\\
+Entladevorgang:
+\begin{equation}
+    U_C(t) = U_0 \cdot e^{-\frac{t}{RC}}
+\end{equation}
+
+\subsection{Aufgabe 4 - Grafische Bestimmung von der Zeitkonstante}
+\label{sec:vorbereitung_aufgabe4}
+Zur Bestimmung der Zeitkonstante $\tau$ aus der Kurve des Spannungsverlaufs $U(t)$ stehen mehrere grafische Methoden zur Verfügung.
+Die erste Möglichkeit ist die Bestimmung des Wertes von $t$ bei dem die Kurve von $U(t)$ 63\% des Endwertes erreicht hat. \\
+Die zweite Möglichkeit ist die Bestimmung des Wertes von $t$ bei dem die Tangente der Kurve an der Stelle $t=t_0$ die Asymptote schneidet. \\
+Beide Möglichkeiten liefern den gleichen Wert für die Zeitkonstante $\tau$.
+
+\subsection{Aufgabe 5 - Verlustleitung bei Wärmeabfuhr bei Halbleiterbauelementen}
+Zur mathematischen Berechnung der Wärmeabfuhr bei Halbleiterbauelementen können wir das resultierende thermische Netzwerk als Analog zu einem elektrischen Netzwerk betrachten mit folgenden Äquivalenzen:
+\begin{align*}
+    \text{Verlustleistung } P_V                  & \quad \hat{=} \quad \text{Elektrischer Strom } I      \\
+    \text{Temperaturdifferenz } \Delta \vartheta & \quad \hat{=} \quad \text{Elektrische Spannung } U    \\
+    \text{Temperatur } \vartheta                 & \quad \hat{=} \quad \text{Knotenpotenzial } U         \\
+    \text{Wärmewiderstand } R_{th}               & \quad \hat{=} \quad \text{Elektrischer Widerstand } R \\
+    \text{Wärmekapazität } C_{th}                & \quad \hat{=} \quad \text{Elektrische Kapazität } C
+\end{align*}
+Daraus kann man bekannte Gesetze der Elektrotechnik auf die Wärmeabfuhr übertragen.
+\begin{equation}
+    \label{eqn:Ohmsches_Gesetz_Waerme}
+    \Delta \vartheta = P_V \cdot R_{th} \quad\text{(Ohmsches Gesetz)}
+\end{equation}
+Bei der Wärmeabfuhr erfolgt von der Sperrschicht über das Gehäuse und den Kühlkörper zur Umgebung.
+Die Verlustleistung fließt somit durch eine Reihenschaltung von Wärmewiderständen.
+\begin{Schaltung}[H]
+    \begin{circuitikz}[european]
+
+        % Koordinaten definieren für saubereren Code
+        \coordinate (Start) at (0,0);
+        \coordinate (NodeC) at (4,0);
+        \coordinate (NodeS) at (8,0);
+        \coordinate (End) at (11,0);
+
+        % Haupfad mit Widerständen und Strompfeil
+        \draw (Start)
+        to[short, i=$P_v$] (1.5,0)
+        to[R, l_=$R_{\text{th,JC}}$] (NodeC)
+        to[R, l_=$R_{\text{th,CS}}$] (NodeS)
+        to[R, l_=$R_{\text{th,S}}$] (End);
+
+        % Start-Klemme (kleiner Kreis)
+        \node[ocirc] at (Start) {};
+
+        % Vertikale Linien für die Temperaturen
+        % Wir zeichnen Linien nach unten von den Knotenpunkten
+        \draw ($(Start)+(0,-0.2)$) -- ++(0,-1.5) node[below] {$\theta_J$};
+        \draw ($(NodeC)+(0,-0.2)$) -- ++(0,-1.5) node[below] {$\theta_C$};
+        \draw ($(NodeS)+(0,-0.2)$) -- ++(0,-1.5) node[below] {$\theta_S$};
+        \draw ($(End)+(0,-0.2)$)   -- ++(0,-1.5) node[below] {$\theta_a$};
+
+        % Die Wand / Umgebung (Schraffur am Ende)
+        % Vertikale Linie
+        \draw (End) ++(0,1) -- ++(0,-2.5);
+
+        % Schraffur-Linien (Loop für den Look)
+        \foreach \y in {1, 0.6, ..., -1.4} {
+                \draw (End) ++(0,\y) -- ++(0.5, 0.5);
+            }
+    \end{circuitikz}
+    \caption{Ersatzschaltbild Thermisches Netzwerk zur Wärmeabfuhr bei Halbleiterbauelementen}
+    \label{fig:thermisches_netzwerk}
+\end{Schaltung}
+Um die Verlustleistung $P_V$ bei einer Temperatur $\vartheta = \SI{125}{\degreeCelsius}$ zu ermitteln muss man
+also nur die Formel \ref{eqn:Ohmsches_Gesetz_Waerme} nach $P_V$ umstellen und die entsprechenden Wärmewiderstände addieren.
+\begin{equation}
+    P_V = \frac{\Delta \vartheta}{R_{\text{th,gesamt}}}
+\end{equation}
+Die Wärmewiderstände setzen sich dabei wie folgt zusammen:
+\begin{align*}
+    R_{\text{th,gesamt}}     & = R_{\text{th,JC}} + R_{\text{th,CS}} + R_{\text{th,SA}}
+    = \SI{3.13}{\kelvin\per\watt} + \SI{1}{\kelvin\per\watt} + \SI{15}{\kelvin\per\watt}    \\
+                             & = \SI{19.13}{\kelvin\per\watt}                               \\
+    R_{\text{th,gesamt,iso}} & = R_{\text{th,JC}} + R_{\text{th,CS,iso}} + R_{\text{th,SA}}
+    = \SI{3.13}{\kelvin\per\watt} + \SI{2}{\kelvin\per\watt} + \SI{15}{\kelvin\per\watt}    \\
+                             & = \SI{20.13}{\kelvin\per\watt}
+\end{align*}
+Ohne eine Isolierscheibe zwischen Gehäuse und Kühlkörper ergibt sich für die Verlustleistung:
+\begin{equation}
+    P_V = \frac{\Delta \vartheta_J}{R_{\text{th,JC}} + R_{\text{th,CS}} + R_{\text{th,SA}} }
+    = \frac{\SI{125}{\kelvin} - \SI{25}{\kelvin}}{\SI{19.13}{\kelvin\per\watt}}
+    = \SI{5.23}{\watt}
+\end{equation}
+Mit einer Isolierscheibe zwischen Gehäuse und Kühlkörper ergibt sich für die Verlustleistung:
+\begin{equation}
+    P_{V, \text{iso}} = \frac{\Delta \vartheta_J}{R_{\text{th,JC}} + R_{\text{th,CS,iso}} + R_{\text{th,SA}} }
+    = \frac{\SI{125}{\kelvin} - \SI{25}{\kelvin}}{\SI{20.13}{\kelvin\per\watt}}
+    = \SI{4.97}{\watt}
+\end{equation}
+
+\subsection{Aufgabe 6 - Wärmekapazität bei Wärmeabfuhr bei Halbleiterbauelementen}
+Die überschlägige Berechnung der spezifischen Wärmekapazität $c_K$ des im Versuch verwendeten Kühlkörpers erfolgt über folgende Formel:
+\begin{equation}
+    c_K = m \cdot c_{Al} \cdot \Delta T
+    = \SI{3.3}{\gram} \cdot \SI{0.9}{\frac{\kilo\joule}{\kilogram\kelvin}}
+    = \SI{2.97}{\joule\per\kelvin}
+\end{equation}
+
+\subsection{Aufgabe 7 - Stationäre Temperatur}
+Um die Zeit zu ermitteln, die der Kühlkörper benötigt, um eine stationäre Temperatur zu erreichen, modellieren wir das thermische Netzwerk als RC-Glied.
+Die Zeitkonstante $\tau$ ergibt sich aus dem Produkt von Wärmewiderstand und Wärmekapazität:
+\begin{align}
+    \tau              & = R_{\text{th,gesamt}} \cdot C_K = \SI{19.13}{\kelvin\per\watt} \cdot \SI{2.97}{\joule\per\kelvin}     \\ & = \SI{56.8}{\second} \nonumber \\
+    \tau_{\text{iso}} & = R_{\text{th,gesamt,iso}} \cdot C_K = \SI{20.13}{\kelvin\per\watt} \cdot \SI{2.97}{\joule\per\kelvin} \\ & = \SI{59.8}{\second} \nonumber
+\end{align}
+Die Temperatur erreicht nach $5\tau$ ca. 99\% des Endwertes, wird also praktisch stationär.
+Somit ergibt sich die Zeit bis zur stationären Temperatur zu:
+\begin{align}
+    t_{\text{stationär}}     & = 5 \cdot \tau = 5 \cdot \SI{56.8}{\second} = \SI{284.05}{\second} = \SI{4.73}{\minute}             \\
+    t_{\text{stationär,iso}} & = 5 \cdot \tau_{\text{iso}} = 5 \cdot \SI{59.8}{\second} = \SI{299.9}{\second} = \SI{4.98}{\minute}
+\end{align}
+
+\subsection{Aufgabe 8 - Berechnung von RT}
+Um den Widerstand $R_T$ in Abhängigkeit von $U_{ref}$ und $R_0$ zu berechnen, wird der Spannungsteiler aus Schaltung \ref{fig:vorbereitung_1} verwendet.
+\begin{alignat}{2}
+    \label{eqn:a8}
+    % Zeile 1: Kein Pfeil, leere erste Spalten
+                    & \quad & U_{T}                                            & = U_{ref} \cdot \frac{R_T}{R_0 + R_T} \nonumber   \\
+    % Zeile 2: Pfeil in Spalte 1, Gleichung in Spalte 2
+    \Leftrightarrow &       & R_T                                              & = (R_T + R_0) \cdot \frac{U_T}{U_{ref}} \nonumber \\
+    \Leftrightarrow &       & R_T - R_T \cdot \frac{U_T}{U_{ref}}              & = R_0 \cdot \frac{U_T}{U_{ref}} \nonumber         \\
+    \Leftrightarrow &       & R_T \cdot \left( 1 - \frac{U_T}{U_{ref}} \right) & = R_0 \cdot \frac{U_T}{U_{ref}}                   \\
+    \Leftrightarrow &       & R_T \cdot \frac{U_{ref} - U_T}{U_{ref}}          & = R_0 \cdot \frac{U_T}{U_{ref}} \nonumber         \\
+    \Leftrightarrow &       & R_T                                              & = R_0 \cdot \frac{U_T}{U_{ref} - U_T} \nonumber
+\end{alignat}
+
+\subsection{Aufgabe 9}
+Die Spannung $U_T$ wird vom SAR-ADC gemessen und als Zahlenwert $Z$ ausgegeben. Allgemein gilt für $Z$, der bei einem 12-Bit SAR-ADC mit einer Eingangsspannung $U_T$ und einer Vollausschlagspannung $U_{\text{SAR,max}} = 2U_{\text{ref}}$ und $Z_{\text{SAR,max}} = 4095 = 2^{12} - 1$:
+\begin{alignat}{2}
+    \label{eqn:a9}
+                    & \quad & \frac{Z}{Z_{\text{SAR,max}}} & = \frac{U_T}{U_{\text{SAR,max}}}                                 \\
+    \Leftrightarrow &       & Z                            & = \frac{U_T}{2U_{\text{ref}}} \cdot Z_{\text{SAR,max}} \nonumber
+\end{alignat}
+
+\subsection{Aufgabe 10}
+Unter Verwendung der Ergebnisse aus Aufgabe 8 und 9 kann nun gezeigt werden, dass
+$R_T$ unabhängig von $U_{\text{ref}}$ ist.
+Dazu setzen wir die Gleichung \ref{eqn:a9} in die Gleichung \ref{eqn:a8} ein:
+\begin{alignat}{2}
+    \label{eqn:a10}
+                    & \quad & R_T & = R_0 \cdot \frac{\frac{Z}{Z_{\text{SAR,max}}} \cdot 2U_{\text{ref}}}{U_{\text{ref}} - \frac{Z}{Z_{\text{SAR,max}}} \cdot 2U_{\text{ref}}} \nonumber \\
+    \Leftrightarrow &       &     & = R_0 \cdot \frac{\frac{2Z}{Z_{\text{SAR,max}}} \cdot U_{\text{ref}}}{U_{\text{ref}} \left( 1 - \frac{2Z}{Z_{\text{SAR,max}}} \right)}               \\
+    \Leftrightarrow &       &     & = R_0 \cdot \frac{2Z}{Z_{\text{SAR,max}} - 2Z} \nonumber
+\end{alignat}
+
+\subsection{Aufgabe 11}
+Unter der Annahme, dass der SAR-ADC den Zahlenwert $Z = 1024$ ausgibt und $R_0 = \SI{10}{\kilo\ohm}$, ergibt sich für den Widerstand $R_T$:
+\begin{equation}
+    R_T = R_0 \cdot \frac{2Z}{Z_{\text{SAR,max}} - 2Z} = \SI{10}{\kilo\ohm} \cdot \frac{2 \cdot 1024}{4095 - 2 \cdot 1024} = \SI{10.00489}{\kilo\ohm}
+\end{equation}
+Um die zugehörige Temperatur zu bestimmen wird die Steinhart-Hart-Gleichung verwendet:
+\begin{equation}
+    \frac{1}{T} = A + B \cdot \ln(R_T) + C \cdot (\ln(R_T))^3
+\end{equation}
+Mit den Konstanten aus der Vorbereitung
+\begin{align*}
+    A & = \SI{1.12559726e-03}{\per\kelvin} \\
+    B & = \SI{2.34801612e-04}{\per\kelvin} \\
+    C & = \SI{8.63986114e-08}{\per\kelvin}
+\end{align*}
+und $R_T = \SI{10.00489}{\kilo\ohm}$ ergibt sich für die Temperatur:
+\begin{align*}
+    \frac{1}{T} & = \SI{1.126e-3}{\per\kelvin} + \SI{2.348e-4}{\per\kelvin} \cdot \ln\left(\frac{\SI{10004.89}{\ohm}}{\SI{1}{\ohm}}\right) \\
+                & \quad + \SI{8.640e-8}{\per\kelvin} \cdot \ln^3\left(\frac{\SI{10004.89}{\ohm}}{\SI{1}{\ohm}}\right)                      \\
+                & = \SI{3.3558e-3}{\per\kelvin}                                                                                            \\
+\end{align*}
+
+\begin{equation}
+    \Rightarrow \boxed{T = \SI{297.989}{\kelvin} \approx \SI{25}{\degreeCelsius}}
+\end{equation}
+
+

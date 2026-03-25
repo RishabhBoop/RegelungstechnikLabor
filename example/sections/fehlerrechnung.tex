@@ -1,0 +1,89 @@
+\section{Fehlerbetrachtung von Wärmewiderständen}
+\label{scn:fehler_waermewiderstand}
+In Tabelle \ref{tab:vergleich_rth} werden die in der Vorbereitung berechneten Wärmewiderstände mit den experimentell ermittelten Werten verglichen.
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{l|c|c|c}
+        \toprule
+        \textbf{Wärmewiderstand}                  & \textbf{Vorbereitung} & \textbf{Messung (ohne Iso.)} & \textbf{Messung (mit Iso.)} \\
+        \midrule
+        $R_{th,JC}/{\si{\kelvin\per\watt}}$       & \num{3.13}            & \num{2.18}                   & \num{3.94}                  \\
+        $R_{th,CS}/{\si{\kelvin\per\watt}}$       & \num{1.00}            & \num{3.49}                   & --                          \\
+        $R_{th,CS, iso}/{\si{\kelvin\per\watt}}$  & \num{2.00}            & --                           & \num{4.41}                  \\
+        $R_{th,S}/{\si{\kelvin\per\watt}}$        & \num{15.00}           & \num{9.52}                   & \num{9.26}                  \\
+        \midrule
+        $R_{th,ges}/{\si{\kelvin\per\watt}}$      & \num{19.13}           & \num{15.19}                  & --                          \\
+        $R_{th,ges, iso}/{\si{\kelvin\per\watt}}$ & \num{20.13}           & --                           & \num{17.61}                 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Vergleich der Wärmewiderstände: Vorbereitung vs. Messung}
+    \label{tab:vergleich_rth}
+\end{table}
+
+Die prozentuale Abweichung zwischen den theoretisch berechneten und den experimentell ermittelten Werten ist in Tabelle \ref{tab:abweichung_rth} dargestellt.
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{l|c|c}
+        \toprule
+        \textbf{Wärmewiderstand} & \textbf{Abweichung (ohne Iso.)} & \textbf{Abweichung (mit Iso.)} \\
+        \midrule
+        $R_{th,JC}$              & \SI{-30.35}{\percent}           & \SI{+25.88}{\percent}          \\
+        \midrule
+        $R_{th,CS}$              & \SI{+249.00}{\percent}          & --                             \\
+        $R_{th,CS, iso}$         & --                              & \SI{+120.50}{\percent}         \\
+        \midrule
+        $R_{th,S}$               & \SI{-36.53}{\percent}           & \SI{-38.27}{\percent}          \\
+        \midrule
+        $R_{th,ges}$             & \SI{-20.60}{\percent}           & --                             \\
+        $R_{th,ges, iso}$        & --                              & \SI{-12.52}{\percent}          \\
+        \bottomrule
+    \end{tabular}
+    \caption{Prozentuale Abweichung der Wärmewiderstände (Messung vs. Vorbereitung)}
+    \label{tab:abweichung_rth}
+\end{table}
+
+Man erkennt hier, dass bei der Messung des Wärmewiderstands eine deutliche Abweichung zu den in der Vorbereitung berechneten Werten besteht, insbesondere für den Wärmewiderstand $R_{th,CS}$. Grund hierfür können verschiedene Faktoren sein. Der Kühlkörper war mit einer Schraube befestigt, die den Wärmeübergang beeinflussen kann. Wenn die Schraube nicht fest genug angezogen ist, kann dies den Wärmeübergang drastisch verschlechtern. Dies würde die hohe Abweichung erklären. Zudem können Messfehler bei der Temperatur- und Spannungsmessung sowie Abweichungen in den Materialeigenschaften der Bauteile zu Ungenauigkeiten führen.
+
+
+\subsection{Fehlerfortpflanzung}
+Allgemein lassen sich die Wärmewiderstände wie folgt berechnen:
+\begin{equation*}
+    R_{thJC} = f(\vartheta_J, \vartheta_C, I_C, U_{CE}) = \frac{\Delta \vartheta_{JC}}{P_V} = \frac{\vartheta_J - \vartheta_C}{I_C \cdot U_{CE}}
+\end{equation*}
+Die Wärmewiderstände hängen von der Temperaturdifferenz $\Delta \vartheta$ und der Verlustleistung $P_V$ ab. Beide Messgrößen leiden unter systematische Messfehler und Messunsicherheiten aufgrund von nicht-idealen Messgeräten und Bauteilen sowie menschlichen Fehlern.
+Man nimmt hierfür einen Messsfehler von $\Delta \vartheta = \pm \SI{0.5}{\kelvin}$ an und jeweils eine Abweichung von $\pm 0.5\%$ für die Strom- und Spannungsmessung. Dies entspricht:
+\begin{align*}
+    \Delta I_C    & = \SI{0.5}{\percent} \cdot \SI{1.44}{\ampere} = \SI{0.0072}{\ampere} = \SI{7.2}{\milli\ampere} \\
+    \Delta U_{CE} & = \SI{0.5}{\percent} \cdot \SI{2.93}{\volt} = \SI{0.01465}{\volt} = \SI{14.65}{\milli\volt}
+\end{align*}
+Da der Wärmewiderstand von der Verlustleistung $P_V$ und der Temperaturdifferenz $\Delta \vartheta$ abhängt, pflanzt sich der Fehler wie folgt fort:
+\begin{align}
+    \label{eqn:raw_fehlerfortpflanzung}
+    \Delta R_{thJC} & = \left| \frac{\partial R_{thJC}}{\partial \vartheta_J} \right| \Delta \vartheta_J + \left| \frac{\partial R_{thJC}}{\partial \vartheta_C} \right| \Delta \vartheta_C + \left| \frac{\partial R_{thJC}}{\partial I_C} \right| \Delta I_C + \left| \frac{\partial R_{thJC}}{\partial U_{CE}} \right| \Delta U_{CE}  \\
+                    & = \left| \frac{1}{I_C \cdot U_{CE}} \right| \Delta \vartheta_J + \left| \frac{1}{I_C \cdot U_{CE}} \right| \Delta \vartheta_C  + \left| \frac{\vartheta_J - \vartheta_C}{(I_C)^2 \cdot U_{CE}} \right| \Delta I_C  + \left| \frac{\vartheta_J - \vartheta_C}{I_C \cdot (U_{CE})^2} \right| \Delta U_{CE} \nonumber
+\end{align}
+Da $\Delta \vartheta_J = \Delta \vartheta_C = \Delta \vartheta$ gilt, kann man die obige Gleichung vereinfachen:
+\begin{align}
+    \Delta R_{thJC} & = 2 \cdot \left| \frac{1}{P_V} \right| \Delta \vartheta + \left| \frac{\Delta \vartheta_{JC}}{(I_C)^2 \cdot U_{CE}} \right| \Delta I_C + \left| \frac{\Delta \vartheta_{JC}}{I_C \cdot (U_{CE})^2} \right| \Delta U_{CE}
+\end{align}
+Mit den gemessenen Werten aus Kapitel \ref{scn:berechnung_verlustleistung} und den angenommenen Messfehlern ergibt sich somit für den Versuch ohne Isolierung ein Fehler von:
+\begin{align*}
+    \Delta R_{thJC} & = 2 \cdot \left| \frac{1}{\SI{4.2192}{\watt}} \right| \SI{0.5}{\kelvin} + \left| \frac{\SI{9.171}{\kelvin}}{(\SI{1.44}{\ampere})^2 \cdot \SI{2.93}{\volt}} \right| \SI{7.2}{\milli\ampere} + \left| \frac{\SI{9.171}{\kelvin}}{\SI{1.44}{\ampere} \cdot (\SI{2.93}{\volt})^2} \right| \SI{14.65}{\milli\volt} \\
+                    & = \boxed{\SI{0.259}{\kelvin\per\watt}}
+\end{align*}
+\begin{align*}
+     & \Rightarrow \Delta R_{thJC} \approx \pm \SI{0.26}{\kelvin\per\watt} \\
+     & \Rightarrow \frac{\Delta R_{thJC}}{R_{thJC}} \approx \pm 11.93\%          %\approx \SI{0.26}{\kelvin\per\watt}
+\end{align*}
+Mit dem gleichen Vorgehen ergibt sich für den Versuch mit Isolierung ein Fehler von:
+\begin{align*}
+    \Delta R_{thJC, iso} & = 2 \cdot \left| \frac{1}{\SI{4.2192}{\watt}} \right| \SI{0.5}{\kelvin} + \left| \frac{\SI{16.662}{\kelvin}}{(\SI{1.44}{\ampere})^2 \cdot \SI{2.93}{\volt}} \right| \SI{7.2}{\milli\ampere} + \left| \frac{\SI{16.662}{\kelvin}}{\SI{1.44}{\ampere} \cdot (\SI{2.93}{\volt})^2} \right| \SI{14.65}{\milli\volt} \\
+                         & = \boxed{\SI{0.277}{\kelvin\per\watt}}
+\end{align*}\begin{align*}
+     & \Rightarrow \Delta R_{thJC, iso} \approx \pm \SI{0.28}{\kelvin\per\watt} \\
+     & \Rightarrow \frac{\Delta R_{thJC, iso}}{R_{thJC, iso}} \approx \pm 7.11\%      %\approx \SI{0.28}{\kelvin\per\watt}
+\end{align*}
