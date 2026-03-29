@@ -1,0 +1,25 @@
+{
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk-lualatex",
+            "command": "latexmk",
+            "args": [
+                "-pdflua",
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "Smart Build: LuaLaTeX",
+            "tools": [
+                "latexmk-lualatex",
+                "latexmk-lualatex"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipe.default": "lastUsed"
+}
