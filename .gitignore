@@ -19,3 +19,13 @@
 # LaTeX directories
 build/
 dist/
+
+# Matlab
+*.asv
+*.m~
+*.mlx
+*.p
+*.mex*
+*.fig
+*.mat
+slprj/
