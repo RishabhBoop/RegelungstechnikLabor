@@ -32,6 +32,8 @@
 \RequirePackage{csquotes}
 \RequirePackage{setspace}
 
+%% ---- Lua ---- %%
+\RequirePackage{luacode}
 % =======================================================================
 %  FONT CONFIGURATION
 % =======================================================================
@@ -189,16 +191,49 @@
 %   TITLE PAGE VARIABLES
 %----------------------------------------------------------------------------------------
 \def\@matrikelnummer{}
+\def\@gruppennummer{}
 \def\@betreuer{}
 \def\@facultyname{Elektro- und Informationstechnik}
 \def\@studiengang{Elektro- und Informationstechnik (Bachelor)}
 \def\@berichttyp{Laborbericht}
 
 \newcommand{\matrikelnummer}[1]{\def\@matrikelnummer{#1}}
+\newcommand{\gruppennummer}[1]{\def\@gruppennummer{#1}}
 \newcommand{\betreuer}[1]{\def\@betreuer{#1}}
 \newcommand{\facultyname}[1]{\def\@facultyname{#1}}
 \newcommand{\studiengang}[1]{\def\@studiengang{#1}}
 \newcommand{\berichttyp}[1]{\def\@berichttyp{#1}}
+\newcommand{\addauthor}[2]{
+    % The quotes are crucial so Lua reads them as strings, not variables!
+    \directlua{addAuthor("#1", "#2")}%
+}
+
+
+\begin{luacode*}
+Authors = {}
+
+function addAuthor(name, matrikelnummer)
+    table.insert(Authors, {name = name, matrikelnummer = matrikelnummer})
+end
+
+function printHauptautor()
+    -- first in list is Hauptautor
+    tex.print("\\avantfont{" .. Authors[1].name .. "}")
+end
+
+function printGruppenMitglieder()
+    -- don't print anything if no authors were added
+    if #Authors == 0 then return end
+    
+    local membersList = {}
+    for _, author in ipairs(Authors) do
+        table.insert(membersList, author.name .. " (" .. author.matrikelnummer .. ")")
+    end
+    
+    tex.print("\\avantfont{\\textbf{Gruppenmitglieder:}} & \\avantfont{" .. table.concat(membersList, ", ") .. "} \\\\[2ex]")
+end
+
+\end{luacode*}
 
 %----------------------------------------------------------------------------------------
 % CREATE TITLE PAGE
@@ -212,7 +247,7 @@
         \coordinate (HeaderTopLeft) at ($ (current page.north west) + (2, -2) $);
         \coordinate (FacultyPos) at ($ (HeaderTopLeft) + (0, -2) $);
 
-        % Position logo anchor top-rightish
+        % Position logo anchor
         \coordinate (H) at ($ (current page.north east) + (8, 0.8) $);
         \coordinate (K) at ($ (H) + (0,-8.6) $);
         \coordinate (A) at ($ (K) + (0,-8.6) $);
@@ -222,7 +257,7 @@
         \coordinate (BerichtTypPos) at ($ (StudiengangPos) + (0, -0.7cm) $);
         \coordinate (VersuchNamePos) at ($ (BerichtTypPos) + (0, -1.5cm) $);
         \coordinate (AutorenPos) at ($ (VersuchNamePos) + (0, -2.5cm) $);
-        \coordinate (FooterPos) at ($ (current page.south west) + (2cm, 3.5cm) $); % Position near bottom-left
+        \coordinate (FooterPos) at ($ (current page.south west) + (2cm, 1.5cm) $); % Position near bottom-left
 
         %%% Text Blocks %%%
         % HKA, University of Applied Science
@@ -247,14 +282,17 @@
         };
 
         % Authors Block
-        \node[anchor=north west, text width=15cm, align=left] at (AutorenPos) {\avantfont{\@author}};
+        \node[anchor=north west, text width=15cm, align=left] at (AutorenPos) {\directlua{printHauptautor()}};
 
         % Footer Block (Matrikelnummer, Betreuer, Datum)
-        \node[anchor=north west, text width=15cm, align=left] at (FooterPos) {%
+        \node[anchor=south west, text width=15cm, align=left] at (FooterPos) {%
             \begingroup
-            \avantfont{\textbf{Matrikelnummer:} \@matrikelnummer} \\[2ex]
-            \avantfont{\textbf{Betreuer: } \@betreuer} \\[2ex]
-            \avantfont{\textbf{Datum:} \@date}
+            \begin{tabular}{@{}p{4.5cm} p{10.5cm}@{}}
+                \avantfont{\textbf{Gruppennummer:}} & \avantfont{\@gruppennummer} \\[2ex]
+                \directlua{printGruppenMitglieder()}
+                \avantfont{\textbf{Betreuer:}} & \avantfont{\@betreuer} \\[2ex]
+                \avantfont{\textbf{Datum:}} & \avantfont{\@date}
+            \end{tabular}
             \endgroup
         };
 
