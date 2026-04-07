@@ -9,7 +9,6 @@
 *.gz
 *.log
 *.out
-*.pdf
 *.synctex.gz
 *.toc
 *.xdv
@@ -19,6 +18,7 @@
 # LaTeX directories
 build/
 dist/
+_minted-*/
 
 # Matlab
 *.asv
@@ -29,3 +29,13 @@ dist/
 *.fig
 *.mat
 slprj/
+*.slxc
+*.slx.original
+
+
+# Labor-specific files
+lab1/Einführung in MATLAB von Frau Teschl.pdf
+lab1/Einführung in Simulink TU München - Jörg Paschedag.pdf
+lab1/bericht.pdf
+lab1/MatlabSimulink_Kurzanleitung_V2.pdf
+example/bericht.pdf
