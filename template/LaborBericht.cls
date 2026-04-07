@@ -101,8 +101,37 @@
 \RequirePackage{hyperref}
 
 %% ---- Conditional Packages ---- %%
-\RequirePackage{pgffor} % for loops
-\RequirePackage{ifthen}
+\RequirePackage{minted}
+\definecolor{mintedbg}{rgb}{0.95,0.95,0.95}
+\setminted{
+    bgcolor=mintedbg,
+    fontsize=\footnotesize,
+    linenos=true
+    frame=lines,      % Adds a top and bottom line to bind the numbers and text
+    framesep=2mm      % Adds a little breathing room inside the frame
+}
+\DeclareCaptionType{sourcecode}[Quellcode][Quellcode]
+\captionsetup[sourcecode]{
+    position=top,          % Tells LaTeX to expect the caption at the top
+    skip=5pt,              % Reduces the gap between the caption and the gray box
+    justification=raggedright, % Left-aligns the caption with the code box
+    singlelinecheck=false, % Forces left-alignment even if it's a short 1-line caption
+    labelfont=bf,           % Makes "Code 1:" bold for better readability
+    font=small
+}
+\counterwithin{sourcecode}{subsection}
+
+\DeclareCaptionType{consoleoutput}[Konsolenausgabe][Konsolenausgabe]
+\captionsetup[consoleoutput]{
+    position=top,          % Tells LaTeX to expect the caption at the top
+    skip=5pt,              % Reduces the gap between the caption and the gray box
+    justification=raggedright, % Left-aligns the caption with the code box
+    singlelinecheck=false, % Forces left-alignment even if it's a short 1-line caption
+    labelfont=bf,           % Makes "Code 1:" bold for better readability
+    font=small
+}
+\counterwithin{consoleoutput}{subsection}
+
 \RequirePackage[colorinlistoftodos]{todonotes} % For TODO notes
 
 %----------------------------------------------------------------------------------------
