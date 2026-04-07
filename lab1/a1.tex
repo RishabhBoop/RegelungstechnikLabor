@@ -1,0 +1,160 @@
+% !TeX root = bericht.tex
+\section{Aufgabe 1}
+\subsection{Plotten von zwei Sinussignale}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{lab1_1_0.png}
+    \caption{x1 und x2}
+\end{figure}
+
+Es galt, zwei sinussignale $x_1(t)$ und $x_2(t)$ in einem Diagramm grafisch darzustellen.
+
+\begin{align}
+    x_1(t) &= x_{1, 0} \cdot \sin(2 \pi f_1 t) \\
+    x_2(t) &= x_{2,0} \cdot \sin\left(2 \pi f_2 t - \frac{\pi}{2}\right)
+    \label{fig:x1-x2}
+\end{align}
+
+Mit $f_1 = 20 kHz$, $f_2 = 60 kHz$, $x_{1,0} = 2$ und $x_{2,0} = 4$. \\
+Damit die Signale $x_1(t)$ und $x_2(t)$ richtig dargestellt werden, muss die Abtastfrequenz mindestens doppelt so hoch sein wie die höchste Frequenz der Signale sein (Nyquist-Shannon-Abtasttheorem).
+Hier wurde eine Abtastfrequenz von $f = 10 MHz$ gewählt, welches deutlich höher ist als $2 \cdot 60kHz$ ist.
+\begin{sourcecode}
+    \caption{Matlab Code zur Parameterwahl und Zeitachse}
+    \begin{minted}{matlab}
+x1_0 = 2;
+x2_0 = 4;
+f1 = 20e3;
+f2 = 60e3;
+
+t = 0 : 0.1e-6 : 0.3e-3;    % Abtastfrequenz f=10MHz
+    \end{minted}
+\end{sourcecode}
+
+\begin{sourcecode}
+    \caption{Matlab Code zur Berechnung von $x_1(t)$ und $x_2(t)$}
+    \begin{minted}{matlab}
+x1 = x1_0 * sin(2*pi*f1*t);
+x2 = x2_0 * sin(2*pi*f2*t - pi/2);
+    \end{minted}
+\end{sourcecode}
+
+\begin{sourcecode}
+    \caption{Matlab Code um die Signale zu plotten}
+    \begin{minted}{matlab}
+figure;
+plot(t, x1)
+hold on;
+plot(t, x2)
+hold off;
+
+title('x_1(t) und x_2(t)');
+xlabel('Zeit t in [s]');
+ylabel('Amplitude');
+legend('x_1 (20 kHz)', 'x_2 (60 kHz)');    
+    \end{minted}
+\end{sourcecode}
+
+
+\subsection{Plotten von zwei Sinussignale}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{lab1_1_1.png}
+    \caption{Summe der Signale x1 und x3}
+    \label{fig:x1-x3}
+\end{figure}
+Hier zu sehen ist $x_1(t)$ und $x_3(t)$.
+\begin{align}
+    x_3(t) &= x_1(t) \cdot x_1(t) \\ 
+    &= x_{1,0}^2 \cdot \sin^2(2 \pi f_1 t) \nonumber
+\end{align}
+Da $sin^2(\phi) = \frac{1 - \cos(2\phi)}{2}$, kann man $x_3(t)$ auch noch weiter umschreiben:
+\begin{align}
+    x_3(t) &= \frac{x_{1,0}^2}{2} \cdot (1 - \cos(4 \pi f_1 t)) \\
+    &= \frac{x_{1,0}^2}{2} - \frac{x_{1,0}^2}{2} \cdot \cos(4 \pi f_1 t) \nonumber
+\end{align}
+
+$\Rightarrow x_3(t) = \underbrace{\frac{x_{1,0}^2}{2}}_{\text{Gleichanteil}} 
+- \underbrace{\frac{x_{1,0}^2}{2} \cdot \cos(2\pi \cdot (2f_1) \cdot t)}_{\text{doppelte Frequenz}}$
+
+Somit ist $x_3(t)$ die Summe eines Gleichanteils und eines Signals mit der doppelten Frequenz von $x_1(t)$. 
+
+In Matlab kann $x_3(t)$ wie folgt angezeigt werden:
+\begin{sourcecode}
+    \caption{Matlab Code zur Berechnung von $x_3(t)$}
+\begin{minted}{matlab}
+x3 = x1 .* x1;
+\end{minted}
+\end{sourcecode}
+
+\begin{sourcecode}
+    \caption{Matlab Code zum Vergleich von $x_1(t)$ und $x_3(t)$}
+\begin{minted}{matlab}
+plot(t, x1)
+hold on;
+plot(t, x3)
+hold off;
+title('x_1(t) und x_3(t)');
+xlabel('Zeit t in [s]');
+ylabel('Amplitude');
+legend('x_1', 'x_3');
+\end{minted}
+\end{sourcecode}
+
+\subsection{Lissajous-Figur}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{lab1_1_2.png}
+    \caption{Lissajous-Figur von x1 und x2}
+    \label{fig:lissajous}
+\end{figure}
+Hier zu sehen ist die Lissajous-Figur von $x_1(t)$ und $x_2(t)$
+Um eine Lissajous-Figur zu erstellen, müssen die beiden Signale $x_1(t)$ und $x_2(t)$ um $\varphi = 90^\circ$ phasenverschoben sein, damit die Figur eine geschlossene Form annimmt.
+Hierbei wird $x_1(t)$ über $x_2(t)$ geplottet, also $x_1(t)$ auf der x-Achse und $x_2(t)$ auf der y-Achse.
+Mit der Lissajous-Figur kann man Phasenverschiebungen zwischen den Signalen erkennen. Früher wurde diese Methode verwendet, um bei Elektronenröhrenoszilloskopen die Phasenverschiebung zwischen zwei Signalen zu bestimmen.
+Heutzutage können Digitale Oszilloskope die Phasenverschiebung direkt anzeigen, sodass die Lissajous-Figur eher eine anschauliche Darstellung ist.
+Zudem kann man die Frequenzverhältnisse der Signale erkennen. 
+In diesem Fall ist das Frequenzverhältnis 1:3 (ablesen an der Anzahl der Nullstellen der Signale).
+In Matlab wurde die Lissajous-Figur wie folgt dargestellt:
+\begin{sourcecode}
+    \caption{Matlab Code zur Darstellung der Lissajous-Figur}
+\begin{minted}{matlab}
+plot(x1,x2)
+title('Lissajous-Figur');
+xlabel('x_1(t)');
+ylabel('x_2(t)');
+\end{minted}
+\end{sourcecode}
+
+\subsection{Lissajous-Figur mit geringere Samling Rate}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{lab1_1_3.png}
+    \caption{Lissajous-Figur von x1 und x2 mit geringere Samling Rate}
+    \label{fig:lissajous_wrong}
+\end{figure}
+Hier zu sehen ist die Lissajous-Figur von $x_1(t)$ und $x_2(t)$, jedoch mit einer geringeren Abtastfrequenz von $f = 500 Hz$.
+Da die Abtastfrequenz zu gering ist, kommt es zu Aliasing und das Signal kann nicht mehr korrekt dargestellt werden.
+Auf einem Plot von $x_1(t)$ über $x_2(t)$ würden zu niedrige Frequenzen bzw. eine nicht-konstante Frequenz erscheinen.
+Das führt zu einer verzerrten Lissajous-Figur wie in Abbildung \ref{fig:lissajous_wrong}.
+
+\begin{sourcecode}
+    \caption{Matlab Code zur Signalerzeugung bei zu niedriger Abtastfrequenz}
+\begin{minted}{matlab}
+t=linspace(0,2,1000);
+f1=20e3; 
+f2=60e3;
+
+x1 = x1_0 * sin(2*pi*f1*t);
+x2 = x2_0 * sin(2*pi*f2*t - pi/2);
+\end{minted}
+\end{sourcecode}
+
+\begin{sourcecode}[htbp]
+    \caption{Matlab Code zur Darstellung der verzerrten Lissajous-Figur}
+\begin{minted}{matlab}
+plot(x1, x2);
+title('Lissajous-Figur mit zu niedrige Abtastfrequenz')
+xlabel('x_1(t)');
+ylabel('x_2(t)');
+\end{minted}
+\end{sourcecode}

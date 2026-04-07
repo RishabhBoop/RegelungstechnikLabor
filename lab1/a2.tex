@@ -1,0 +1,166 @@
+% !TeX root = bericht.tex
+\section{Aufgabe 2}
+\subsection{Vorbereitung}
+Die Übertragungsfunktion eines RC-Tiefpassfilters lautet:
+\begin{align}
+    G(s) = \frac{1}{1 + sRC}
+\end{align}
+Da die Grenzfunktion asympotisch stabil ist, können wir es in den Frequenzbereich überführen:
+\begin{equation}
+    G(s) = \left. \frac{1}{1 + sRC} \right|_{s = j\omega} = \frac{1}{1 + j\omega RC}
+\end{equation}
+Die Grenzfrequenz $f_g$ eines RC-Tiefpassfilters ist definiert als die Frequenz, bei der die Amplitude des Ausgangssignals um 3dB abgefallen ist. 
+Sie kann mit der folgenden Formel berechnet werden:
+\begin{align}
+    f_g = \frac{1}{2 \pi RC}
+\end{align}
+Da wir $R$ und $C$ suchen, stellen wir um. Hier wird nach $C$ umgestellt und $R$ auf einen festen Wert von $R = 10 k\Omega$ gesetzt:
+\begin{align}
+    C &= \frac{1}{2 \pi R f_g} \\
+    &= \frac{1}{2 \pi \cdot 10 k\Omega \cdot 10 kHz} \approx 1.59 nF
+\end{align}
+
+\subsection{Grenzfrequenz in MatLab beschreiben}
+\begin{sourcecode}[H]
+    \caption{Matlab Code zur Beschreibung der Übertragungsfunktion}
+\begin{minted}{matlab}
+f_grenz = 10e3;     % 10kHz
+R = 10e3;   % 10kOhm
+C = 1 / (2 * pi * f_grenz * R);
+
+num = [1];
+denum = [R*C, 1];
+
+G = tf(num, denum)
+\end{minted}
+\label{code:tran_fun}
+\end{sourcecode}
+
+Die Übertragungsfunktion kann in MatLab mit der Funktion \texttt{tf} beschrieben werden.
+
+Hierbei ist auf die spezielle Syntax der Funktion \texttt{tf} zu achten.
+Die \texttt{tf} Funktion erwartet zwei Arrays mit jeweils die Koeffizienten des Zählers und des Nenners der Übertragungsfunktion.
+Die Koeffizienten müssen in absteigender Potenz von $s$ angegeben werden. \\
+Betrachten wir als Beispiel die Übertragungsfunktion $G(s) = \frac{67s+420}{69s^2 + 42s + 1}$.
+Der Zähler muss als \texttt{[67, 420]} und der Nenner als \texttt{[69, 42, 1]} angegeben werden. \\
+Machen wir das für unseren RC-Tiefpass, so erhalten wir die folgenden Übertragungsfunktion:
+\begin{consoleoutput}[H]
+    \caption{Übertragungsfunktion des RC-Tiefpasses}
+    \begin{minted}[linenos=false]{text}
+    G =
+ 
+         1
+  ---------------
+  1.592e-05 s + 1
+    \end{minted}
+\end{consoleoutput}
+
+\subsection{Bode-Diagramm}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{lab1_2_0.png}
+    \caption{Bode-Diagramm des RC-Tiefpassfilters}
+    \label{fig:bode}
+\end{figure}
+
+Abbildung \ref{fig:bode} zeigt das Bode-Diagramm des RC-Tiefpassfilters.
+Es zeigt die Amplitude und die Phase der Übertragungsfunktion über einem Frequenzintervall von $10 Hz \le f \le 1 MHz$. 
+Damit wir ein Intervall von genau $10 Hz \le f \le 1 MHz$ abbilden, müssen wir noch die grenzen definieren mit \texttt{grenzen = \{ <untere Grenze>, <obere Grenze> \}}.
+Da die Frequenz in standardnmäßig in Rad/s angegeben wird, müssen wir die Option \texttt{FreqUnits} auf \texttt{Hz} setzen.
+
+\begin{sourcecode}[H]
+    \caption{Bode-Diagramm plotten}
+    \begin{minted}{matlab}
+grenzen = {2*pi*10, 2*pi*1e6}; % Geschweifte Klammer für Intervall
+bodeOpts = bodeoptions;
+bodeOpts.FreqUnits = 'Hz';
+bodeOpts.Grid = 'on';   
+
+bodeplot(G, grenzen, bodeOpts)
+title("RC-Tiefpass erster Ordnung")
+xlabel("Frequenz f")
+    \end{minted}
+\end{sourcecode}
+
+\subsection{Nyquist-Diagramm}
+Ein Nyquist-Diagramm, wie auch das Bode-Diagramm, ist eine grafische Darstellung der Übertragungsfunktion eines LTI-Systems. \\
+Ein Bodediagramm zeigt die Amplitude und Phase und trägt diese jeweils über der Frequenz auf:
+\begin{align}
+    \text{Amplitude} &= |G(j\omega)| \nonumber \\
+    \text{Phase} &= \angle{G(j\omega)}) \nonumber
+\end{align}
+Ein Nyquist-Diagramm zeigt die Real- und Imaginärteile der Übertragungsfunktion:
+\begin{align}   
+    \text{Realteil} &= \Re{G(j\omega)} \nonumber \\
+    \text{Imaginärteil} &= \Im{G(j\omega)} \nonumber
+\end{align}
+Der Imaginärteil wird über den Realteil aufgetragen, also $\Im{G(j\omega)}$ auf der y-Achse und $\Re{G(j\omega)}$ auf der x-Achse.
+
+In unserem Fall:
+\begin{align}
+    \Re{G(j\omega)} &= \frac{1}{1 + (\omega RC)^2} \nonumber \\
+    \Im{G(j\omega)} &= \frac{-\omega RC}{1 + (\omega RC)^2} \nonumber
+\end{align}
+Man zeichnet die Kurve für $\omega$ von $0$ bis $\infty$, gekennzeichnet durch die Pfeile in der Kurve. \\
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{lab1_2_1.png}
+    \caption{Nyquist-Diagramm des RC-Tiefpassfilters}
+    \label{fig:nyquist-ellipse}
+\end{figure}
+
+\begin{sourcecode}[H]
+    \caption{Nyquist-Diagramm Ellipse plotten}
+    \begin{minted}{matlab}
+figure;
+npOpts = nyquistoptions;
+nyquistplot(G, npOpts)
+title("Nyquist Diagram (Ellipse)")
+    \end{minted}
+\end{sourcecode}
+
+Man erkennt in Abbildung \ref{fig:nyquist-ellipse} jedoch, dass der Nyquist-Plot eine Ellipse ist,
+anstatt wie üblich ein Kreis.
+Dies liegt daran, dass die Achsen nicht im gleichen Maßstab skaliert sind.
+Um dies zu beheben, müssen wir nur die Option \texttt{axis equal} hinzufügen.
+
+\begin{sourcecode}[H]
+    \caption{Nyquist-Diagramm als Kreis plotten}
+    \begin{minted}{matlab}
+figure;
+npOpts = nyquistoptions;
+nyquistplot(G, npOpts)
+axis equal;     % <-- Achsen im gleichen Maßstab
+title("Nyquist Diagram (Kreis)")
+    \end{minted}
+\end{sourcecode}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{lab1_2_2.png}
+    \caption{Nyquist-Diagramm des RC-Tiefpassfilters (Kreis)}
+    \label{fig:nyquist-kreis}
+\end{figure}
+
+Uns ist jedoch bekannt, dass die Übertragungsfunktion eines RC-Tiefpassfilters ein halbkreis 
+im 4. Quadranten ist, jedoch wird in Abbildung \ref{fig:nyquist-kreis} ein voller Kreis dargestellt.
+Dies liegt daran, dass die Nyquist-Plot Funktion von MatLab die Frequenz von $-\infty$ bis $\infty$ abbildet, anstatt von $0$ bis $\infty$.
+Um dies zu beheben, müssen wir die Option \texttt{npOpts.ShowFullContour = 'off';} hinzufügen.
+\begin{sourcecode}[H]
+    \caption{Nyquist-Diagramm als Halbkreis plotten}
+    \begin{minted}{matlab}
+f = figure;
+npOpts.ShowFullContour = 'off';     % <-- exclude negative frequencies
+nyquistplot(G, npOpts)
+axis equal;     % <-- Damit es als Hlabkreis dargestellt wird und nicht als halbellipse
+title("Nyquist Diagram (Halbkreis)")
+    \end{minted}
+\end{sourcecode}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{lab1_2_3.png}
+    \caption{Nyquist-Diagramm des RC-Tiefpassfilters (Halbkreis)}
+    \label{fig:nyquist-halbkreis}
+\end{figure}

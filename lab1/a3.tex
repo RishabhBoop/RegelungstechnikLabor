@@ -1,0 +1,99 @@
+% !TeX root = bericht.tex
+\section{Aufgabe 3}
+\subsection{Aufgabenstellung}
+In dieser Aufgabe soll eine Ofenregelung mit Matlab/Simulink modelliert und simuliert werden.
+Die Regelstrecke sieht wie folgt aus:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{lab1_3_0.png}
+    \caption{Zu bauende Ofenregelstrecke}
+\end{figure}
+
+Hierfür wurden in einer .m Datei die folgenden Parameter für unsere Strecke definiert:
+\begin{sourcecode}[H]
+    \caption{Parameter für die Übertragungsfunktion}
+    \begin{minted}{matlab}
+K1 = 10 / 400;      % 10V/400°C
+K2 = 400 / 230;     % 400°C/230V
+tau = 10 * 60;  
+u_ein = 0.75;       
+u_aus = -0.75;
+    \end{minted}
+\end{sourcecode}
+
+\subsection{Modellierung in SimuLink}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{lab1_3_1.png}
+    \caption{Simulink-Modell der Ofenregelstrecke}
+\end{figure}
+\subsubsection{Einstellung der Führungsgröße}
+Der Ofen soll laut Aufgabenstellung auf 180°C für 30min aufgeheizt werden. 
+Danach soll die Führungsgröße auf wieder auf 0°C gesetzt werden. 
+Hierfür wurde in Simulink zwei Step-Blöcke verwendet (siehe Abbildung \ref{fig:steps}).\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{scope_in.pdf}
+    \caption{Einstellung der Führungsgröße mit "Step"-Blöcken}
+    \label{fig:steps}
+\end{figure} 
+Durch die Addition der beiden Blöcke entsteht unsere gewünschte Führungsgröße 
+mit einem Sprung von 0°C auf 180°C bei t=0s und einem Sprung von 180°C auf 0°C bei t=1800s (siehe Abbildung \ref{fig:fuehrung}).
+Um die Führungsgröße in eine für den Regler brauchbare Spannung umzuwandeln, wurde ein Gain-Block mit einem Verstärkungsfaktor von $K_1$ verwendet.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{scope_f.pdf}
+    \caption{Führungsgröße über die Zeit}
+    \label{fig:fuehrung}
+\end{figure}
+
+
+\subsubsection{Modellierung des Reglers}
+Der Regler selbst ist ein einfacher Relais, welche 230V oder 0V ausgibt, je nach Eingangssignal.
+Das Eingangssignal wird aus der Differenz aus Führungsgröße und Istwert (über den Sensor gemessen) gebildet.
+Der Relais-Block in Simulink hat die folgenden Einstellungen:
+\begin{itemize}
+    \item \bf\texttt{Switch on point}: \normalfont\texttt{u\_ein}
+    \item \bf\texttt{Switch off point}: \normalfont\texttt{u\_aus}
+    \item \bf\texttt{Output when on}: \normalfont\texttt{230}
+    \item \bf\texttt{Output when off}: \normalfont\texttt{0}
+\end{itemize}
+
+\subsubsection{Modellierung der Heizung}
+Die Heizung ist eine Übertragungsfunktion 
+\begin{equation}
+    G(s) = \frac{K_2}{1 + \tau s}
+\end{equation}
+Diese Übertragungsfunktion wurde mit dem gleichen Syntax wie in Quellcode \ref{code:tran_fun} beschrieben.
+
+\subsubsection{Rückkopplung}
+Die Rückkopplung der Strecke erfolgt über einen Sensor, welcher die aktuelle Temperatur misst und in eine Spannung umwandelt.
+Hierfür wurde ein Gain-Block mit einem Verstärkungsfaktor von $K_1$ verwendet.
+
+\subsection{Simulationsergebnisse}
+Die Simulationsergebnisse für die Ofenregelstrecke sind in Abbildung \ref{fig:ofen} dargestellt.
+Die blaue Kurve zeigt die Führungsgröße, die orange Kurve zeigt die aktuelle Temperatur des Ofens und die grüne Kurve zeigt die Spannung, welche der Regler ausgibt.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{scope.pdf}
+    \caption{Simulationsergebnisse der Ofenregelstrecke}
+    \label{fig:ofen}
+\end{figure}
+Man kann hier klar erkennen, dass der Regler nicht in der Lage ist, die Führungsgröße von 180°C zu halten.
+Die Temperatur steigt zwar an, aber da der Regler nur 230V oder 0V ausgeben kann, d.h. nur ein Ein/Ausschalten kann, 
+kann die Temperatur nicht stabil gehalten werden und schwankt.
+Da wir die an/ausschaltbedingungen des Relais auf $\pm 0.75V$ gesetzt haben, schaltet der Regler bei 210°C ein und bei 150°C aus.
+
+\subsection{Variation von ein/ausschalt-threshold}
+Die Schaltpunkte des Relais können durch die Parameter $u_{ein}$ und $u_{aus}$ angepasst werden.
+Wenn wir $u_{ein}$/$u_{aus}$ niedriger machen, schaltet der Regler früher ein/aus, was zu einer höheren Frequenz des Ein/Aus-Schaltens führt (mehr, kleinere Schwingungen).
+Dies kann man klar in der folgenden Abbildung erkennen, in welcher $u_{ein}$ auf 0.25V und $u_{aus}$ auf -0.25V gesetzt wurden.
+Der Regler sollte hier bei 190°C einschalten und bei 170°C ausschalten.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{scope_var.pdf}
+    \caption{Simulationsergebnisse mit angepassten Schaltpunkten}
+\end{figure}
+
+Dieser Regler ist natürlich nicht optimal, da so eine hohe Frequenz den Relais beschädigen würde. 
+Jedoch kann man es leicht als Einführung in SimuLink nehmen.
