@@ -34,7 +34,7 @@ Hierfür wurde in Simulink zwei Step-Blöcke verwendet (siehe Abbildung \ref{fig
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{scope_in.pdf}
-    \caption{Einstellung der Führungsgröße mit "Step"-Blöcken}
+    \caption{Einstellung der Führungsgröße mit Step-Blöcken}
     \label{fig:steps}
 \end{figure} 
 Durch die Addition der beiden Blöcke entsteht unsere gewünschte Führungsgröße 
@@ -72,7 +72,7 @@ Hierfür wurde ein Gain-Block mit einem Verstärkungsfaktor von $K_1$ verwendet.
 
 \subsection{Simulationsergebnisse}
 Die Simulationsergebnisse für die Ofenregelstrecke sind in Abbildung \ref{fig:ofen} dargestellt.
-Die blaue Kurve zeigt die Führungsgröße, die orange Kurve zeigt die aktuelle Temperatur des Ofens und die grüne Kurve zeigt die Spannung, welche der Regler ausgibt.
+Die gelbe Kurve zeigt die Führungsgröße, die orange Kurve zeigt die aktuelle Temperatur des Ofens und die blaue Kurve zeigt die Spannung, welche der Regler ausgibt.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{scope.pdf}
@@ -82,11 +82,11 @@ Die blaue Kurve zeigt die Führungsgröße, die orange Kurve zeigt die aktuelle 
 Man kann hier klar erkennen, dass der Regler nicht in der Lage ist, die Führungsgröße von 180°C zu halten.
 Die Temperatur steigt zwar an, aber da der Regler nur 230V oder 0V ausgeben kann, d.h. nur ein Ein/Ausschalten kann, 
 kann die Temperatur nicht stabil gehalten werden und schwankt.
-Da wir die an/ausschaltbedingungen des Relais auf $\pm 0.75V$ gesetzt haben, schaltet der Regler bei 210°C ein und bei 150°C aus.
+Da wir die An- und Ausschaltbedingungen des Relais auf $\pm 0.75V$ gesetzt haben, schaltet der Regler bei 210°C ein und bei 150°C aus.
 
-\subsection{Variation von ein/ausschalt-threshold}
+\subsection{Variation von Ein- und Ausschalt-Threshold}
 Die Schaltpunkte des Relais können durch die Parameter $u_{ein}$ und $u_{aus}$ angepasst werden.
-Wenn wir $u_{ein}$/$u_{aus}$ niedriger machen, schaltet der Regler früher ein/aus, was zu einer höheren Frequenz des Ein/Aus-Schaltens führt (mehr, kleinere Schwingungen).
+Wenn wir $u_{ein}$/$u_{aus}$ niedriger machen, schaltet der Regler früher ein oder aus, was zu einer höheren Frequenz des Ein/Aus-Schaltens führt, also zu mehr kleineren Schwingungen).
 Dies kann man klar in der folgenden Abbildung erkennen, in welcher $u_{ein}$ auf 0.25V und $u_{aus}$ auf -0.25V gesetzt wurden.
 Der Regler sollte hier bei 190°C einschalten und bei 170°C ausschalten.
 \begin{figure}[H]
