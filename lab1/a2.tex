@@ -65,8 +65,8 @@ Machen wir das für unseren RC-Tiefpass, so erhalten wir die folgenden Übertrag
 
 Abbildung \ref{fig:bode} zeigt das Bode-Diagramm des RC-Tiefpassfilters.
 Es zeigt die Amplitude und die Phase der Übertragungsfunktion über einem Frequenzintervall von $10 Hz \le f \le 1 MHz$. 
-Damit wir ein Intervall von genau $10 Hz \le f \le 1 MHz$ abbilden, müssen wir noch die grenzen definieren mit \texttt{grenzen = \{ <untere Grenze>, <obere Grenze> \}}.
-Da die Frequenz in standardnmäßig in Rad/s angegeben wird, müssen wir die Option \texttt{FreqUnits} auf \texttt{Hz} setzen.
+Damit wir ein Intervall von genau $10 Hz \le f \le 1 MHz$ abbilden, müssen wir noch die Grenzen definieren mit \texttt{grenzen = \{ <untere Grenze>, <obere Grenze> \}}.
+Da die Frequenz in standardmäßig in Rad/s angegeben wird, müssen wir die Option \texttt{FreqUnits} auf \texttt{Hz} setzen.
 
 \begin{sourcecode}[H]
     \caption{Bode-Diagramm plotten}
@@ -83,7 +83,7 @@ xlabel("Frequenz f")
 \end{sourcecode}
 
 \subsection{Nyquist-Diagramm}
-Ein Nyquist-Diagramm, wie auch das Bode-Diagramm, ist eine grafische Darstellung der Übertragungsfunktion eines LTI-Systems. \\
+Ein Nyquist-Diagramm ist, wie auch das Bode-Diagramm, eine grafische Darstellung der Übertragungsfunktion eines LTI-Systems. \\
 Ein Bodediagramm zeigt die Amplitude und Phase und trägt diese jeweils über der Frequenz auf:
 \begin{align}
     \text{Amplitude} &= |G(j\omega)| \nonumber \\
@@ -144,7 +144,7 @@ title("Nyquist Diagram (Kreis)")
 \end{figure}
 
 Uns ist jedoch bekannt, dass die Übertragungsfunktion eines RC-Tiefpassfilters ein halbkreis 
-im 4. Quadranten ist, jedoch wird in Abbildung \ref{fig:nyquist-kreis} ein voller Kreis dargestellt.
+im vierten Quadranten ist, jedoch wird in Abbildung \ref{fig:nyquist-kreis} ein voller Kreis dargestellt.
 Dies liegt daran, dass die Nyquist-Plot Funktion von MatLab die Frequenz von $-\infty$ bis $\infty$ abbildet, anstatt von $0$ bis $\infty$.
 Um dies zu beheben, müssen wir die Option \texttt{npOpts.ShowFullContour = 'off';} hinzufügen.
 \begin{sourcecode}[H]
