@@ -1,0 +1,3 @@
+latexmk -lualatex -shell-escape bericht2.tex
+
+latexmk -c

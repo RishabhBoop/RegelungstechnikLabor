@@ -1,0 +1,8 @@
+% !TeX root = bericht.tex
+\section{Aufgabe 1: Behälter ohne Wasserablauf}
+Dieser Teil simuliert eine Füllstandsreglung für einen Behälter ohne Abfluss. Der Behälter hat eine kreisförmige Querschnittfsläche mit einem Durchmesservon $D=17 cm$. Der Flächeninhalt berechnet sich nach $A=\pi r^2=22.7mm^2$. Der Zufluss $q_{zu}(t)$ ist die Stellgröße um die Füllhöhe $h(t)$ zu steuern. Das Ziel ist es, die Füllhöhe auf einen gewünschten Sollwert $h_{soll}(t)=10 cm$ zu bringen und dort zu halten.
+
+\subsection{Simulink-Modell}
+Das Simulink-Modell besteht aus einem Integrator, der die Füllhöhe $h(t)$ berechnet, basierend auf dem Zufluss $q_{zu}(t)$. Der Integrator hat eine Verstärkung von $\frac{1}{A}$, um den Zusammenhang zwischen Zufluss und Füllhöhe zu berücksichtigen. Ein P-Regler wird verwendet, um die Stellgröße $q_{zu}(t)$ anzupassen, basierend auf dem Fehler zwischen der gewünschten Füllhöhe $h_{soll}(t)$ und der tatsächlichen Füllhöhe $h(t)$.
+%screenshot simulink einfügen
+% plots einfügen

@@ -1,0 +1,35 @@
+% !TeX root = bericht.tex
+\section{Aufgaben zur Vorbereitung}
+\subsection{Mathematischer Zusammenhang zwischen Zufluss und Füllhöhe}
+Für den Behälter ohne Loch gilt folgender mathematischer Zusammenhang:
+
+\begin{equation}
+    \dot{h}(t) = \frac{1}{A} q_{zu}(t) \\
+    \Longrightarrow h(t) = \frac{1}{A} \int q_{zu}(t) dt
+\end{equation}
+
+\subsection{Übertragungsfunktion}
+Die Laplace-Transformation der Gleichung (1) ergibt die Übertragungsfunktion:   
+\begin{equation}
+    \mathcal{L}\{h(t)\} = G(s) = \frac{\mathcal{L}\{h(t)\}}{\mathcal{L}\{q_{zu}(t)\}} = \frac{H(s)}{Q_{zu}(s)} = \frac{1}{As}
+\end{equation}
+
+\subsection{Blockschaltbild}
+Diese Übertragungsfunktion kann in einem Blockschaltbild dargestellt werden, wobei der Eingang $q_{zu}(t)$ durch einen Integrator mit der Verstärkung $\frac{1}{A}$ zum Ausgang $h(t)$ führt. Die Regelgröße ist die gewünschte Füllhöhe $h_{soll}(t)$, die mit der tatsächlichen Füllhöhe $h(t)$ verglichen wird, um den Fehler zu berechnen. Dieser Fehler kann dann durch einen Regler verarbeitet werden, um die Stellgröße $q_{zu}(t)$ anzupassen und die gewünschte Füllhöhe zu erreichen.
+%hier simulink screenshot einfügen
+
+\subsection{Stationäre Genauigkeit ohne Abfluss}
+Stationäre Genauigkeit bedeutet, dass die Regelgröße (in diesem Fall die Füllhöhe) den Sollwert erreicht und dort bleibt, wenn der Eingang (der Zufluss) konstant ist. Ohne Abfluss wird die Füllhöhe kontinuierlich steigen, solange der Zufluss vorhanden ist. In diesem Fall gibt es keine Möglichkeit für die Füllhöhe, einen stationären Zustand zu erreichen, da sie immer weiter ansteigt. Daher ist die stationäre Genauigkeit in diesem Szenario nicht definiert, da es keinen stabilen Punkt gibt, an dem die Füllhöhe verbleiben kann.
+
+Es muss folgener mathematischer Zusammenhang gelten, damit die stationäre Genauigkeit erreicht wird:
+
+\begin{equation}
+    \lim_{t \to \infty} (h_{soll}(t) - h(t)) = 0
+\end{equation}
+
+%Rechnung
+
+\subsection{Stationäre Genauigkeit mit Abfluss}
+In diesem Fall gibt es einen Abfluss, der proportional zur Füllhöhe ist, was zu einem stabilen Gleichgewichtspunkt führt. Die stationäre Genauigkeit wird erreicht, wenn die Füllhöhe den Sollwert erreicht und dort bleibt, trotz des Abflusses.
+
+%Rechnung
