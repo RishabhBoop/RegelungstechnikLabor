@@ -1,3 +1,18 @@
 latexmk -lualatex -shell-escape bericht2.tex
 
 latexmk -c
+    
+ToDos:
+
+
+- sprache
+- .m files in lab2 einfügen
+- pull on git
+
+
+konventionen:
+- h: 'Füllstand'
+- h_soll: 'sollwert'
+- K_r: 'Reglerverstärkung'
+
+code.

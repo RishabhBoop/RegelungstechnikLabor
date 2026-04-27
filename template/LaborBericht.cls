@@ -84,6 +84,7 @@
 \RequirePackage{graphicx}
 \RequirePackage{subcaption}
 \RequirePackage{xcolor}
+\RequirePackage{tabularx}
 % \RequirePackage[table]{xcolor}
 \RequirePackage{pgfplots}
 \RequirePackage[european, straightvoltages, RPvoltages]{circuitikz}
