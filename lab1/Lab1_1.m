@@ -19,7 +19,7 @@ title('x_1(t) und x_2(t)'); %[output:1810d80c]
 xlabel('Zeit t in [s]'); %[output:1810d80c]
 ylabel('Amplitude'); %[output:1810d80c]
 legend('x_1 (20 kHz)', 'x_2 (60 kHz)'); %[output:1810d80c]
-exportgraphics(f, "./images/lab1_1_0.png", "Resolution",300); %[output:1810d80c]
+exportgraphics(f, "./lab1/images/lab1_1_0.png", "Resolution",300); %[output:1810d80c]
 % b)
 f = figure; %[output:9e9f69d6]
 x3 = x1 .* x1;
@@ -33,14 +33,14 @@ title('x_1(t) und x_3(t)'); %[output:9e9f69d6]
 xlabel('Zeit t in [s]'); %[output:9e9f69d6]
 ylabel('Amplitude'); %[output:9e9f69d6]
 legend('x_1', 'x_3'); %[output:9e9f69d6]
-exportgraphics(f, "./images/lab1_1_1.png", "Resolution",300); %[output:9e9f69d6]
+exportgraphics(f, "./lab1/images/lab1_1_1.png", "Resolution",300); %[output:9e9f69d6]
 % c)
 f = figure; %[output:7dd6043f]
 plot(x1,x2) %[output:7dd6043f]
 title('Lissajous-Figur'); %[output:7dd6043f]
 xlabel('x_1(t)'); %[output:7dd6043f]
 ylabel('x_2(t)'); %[output:7dd6043f]
-exportgraphics(f, "./images/lab1_1_2.png", "Resolution",300); %[output:7dd6043f]
+exportgraphics(f, "./lab1/images/lab1_1_2.png", "Resolution",300); %[output:7dd6043f]
 % d)
 % Für Lösung 1:
 % T=0.3ms <=> f=3.33kHz
@@ -59,7 +59,7 @@ plot(x1, x2); %[output:16cfc82f]
 title('Lissajous-Figur mit zu niedrige Abtastfrequenz') %[output:16cfc82f]
 xlabel('x_1(t)'); %[output:16cfc82f]
 ylabel('x_2(t)'); %[output:16cfc82f]
-exportgraphics(f, "./images/lab1_1_3.png", "Resolution",300); %[output:16cfc82f]
+exportgraphics(f, "./lab1/images/lab1_1_3.png", "Resolution",300); %[output:16cfc82f]
 
 %[appendix]{"version":"1.0"}
 %---
