@@ -4,8 +4,7 @@ Dieser Bericht behandelt den zweiten Versuch des Labores Regelungstechnik. Es so
 
 \section{Aufgaben zur Vorbereitung}
 \subsection{Mathematischer Zusammenhang zwischen Zufluss und Füllstand}
-Der Behälter ist zylindrischer Form und hat eine kreisrunde Querschnittsfläche $A$ in $[m²]$ mit dem Durchmesser $d$ in $[m]$. Die Regelgröße ist der Füllstand $h(t)$ in $[m]$. Der Zufluss ist $q_{zu}(t)$ in $[\frac{m^3}{s}]$
-\\
+Der Behälter ist zylindrischer Form und hat eine kreisrunde Querschnittsfläche $A$ in $[m²]$ mit dem Durchmesser $d$ in $[m]$. Die Regelgröße ist der Füllstand $h(t)$ in $[m]$. Der Zufluss ist $q_{zu}(t)$ in $[\frac{m^3}{s}]$.
 Für den Behälter ohne Abfluss gilt folgender mathematischer Zusammenhang:
 
 \begin{equation}
@@ -45,7 +44,7 @@ Die Laplace-Transformation der Gleichung (1) ergibt die Übertragungsfunktion $G
 \end{figure}
 
 \subsection{Blockschaltbild}
-Diese Übertragungsfunktion kann in einem Blockschaltbild dargestellt werden, wobei der Eingang $q_{zu}(t)$ durch einen Integrator mit der Verstärkung $\frac{1}{A}$ zum Ausgang $h(t)$ führt. Die Regelgröße ist die gewünschte Füllhöhe $h_{soll}(t)$, die mit der tatsächlichen Füllhöhe $h(t)$ verglichen wird, um den Fehler zu berechnen. Der Fehler wird von dem Regler verarbeitet, um die Stellgröße $q_{zu}(t)$ anzupassen und die gewünschte Füllhöhe zu erreichen. Das Blockschaltbild ist Grundlage für das Modell in \textit{Simulink}, welches in Abbildung \ref{blockschaltbild} gezeigt ist.
+Diese Übertragungsfunktion kann in einem Blockschaltbild dargestellt werden, wobei der Eingang $q_{zu}(t)$ durch einen Integrator mit der Verstärkung $\frac{1}{A}$ zum Ausgang $h(t)$ führt. Die Regelgröße ist der gewünschte Füllstand $h_{soll}(t)$, die mit dem tatsächlichen Füllstand $h(t)$ verglichen wird, um den Fehler zu berechnen. Der Fehler wird von dem Regler verarbeitet, um die Stellgröße $q_{zu}(t)$ anzupassen und die gewünschte Füllhöhe zu erreichen. Das Blockschaltbild ist Grundlage für das Modell in \textit{Simulink}, welches in Abbildung \ref{blockschaltbild} gezeigt ist.
 
 \begin{figure}[H]
     \centering
@@ -58,14 +57,11 @@ Diese Übertragungsfunktion kann in einem Blockschaltbild dargestellt werden, wo
 Stationäre Genauigkeit bedeutet, dass die Regelgröße gegen den Sollwert konvergiert. Eine stationär genaue Regelung ist in der Lage, den Sollwert zu erreichen und zu halten. Es muss folgener mathematischer Zusammenhang gelten, damit die stationäre Genauigkeit erreicht wird:
 
 \begin{equation}
-    \lim_{t \to \infty} (h_{soll}(t)) = \lim_{t \to \infty} (h(t))
+    \lim_{t \to \infty} \left(h_{soll}(t)\right) = \lim_{t \to \infty} \left(h(t)\right)
 \end{equation}
 
-Mit Zufluss und ohne Abfluss wird die Füllhöhe kontinuierlich steigen, sie kann nicht stationär genau sein. Mathematisch betrachtet würde in diesem Fall der Regelgröße divergieren. In der Realität würde die Füllhöhe steigen, bis der Behälter überläuft.
-
-%Rechnung
+Mit Zufluss und ohne Abfluss kann der Füllstand stationäre Genauigkeit erreichen. Wenn jedoch der Füllstand über den Sollwert steigt, hat der Regler keine Möglichkeit, den Füllstand wieder abzusenken. 
 
 \subsection{Stationäre Genauigkeit mit Abfluss}
-In diesem Fall kann der Regler stationäre Genauigkeit erreichen. Wenn die einzuregelnde Füllhöhe überschritten wird, kann das Ventil des Abflusses geöffnet werden und die Füllhöhe sinkt wieder.
+In diesem Fall kann der Regler auch stationäre Genauigkeit erreichen. Wenn der einzuregelnde Füllstand überschritten wird, kann das Ventil des Abflusses geöffnet werden und der Füllstand sinkt wieder.
 
-%Rechnung

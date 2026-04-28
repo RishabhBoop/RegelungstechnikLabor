@@ -1,6 +1,6 @@
 % !TeX root = bericht.tex
 \section{Aufgabe 1: Behälter ohne Wasserablauf}
-Dieser Teil simuliert eine Füllstandsreglung für einen Behälter ohne Abfluss. Der Behälter hat eine kreisförmige Querschnittfsläche mit einem Durchmesser von $D=$ \SI{17}{cm}. Der Flächeninhalt berechnet sich zu $A=\pi r^2=$ \SI{22.7}{mm^2}. Der Zufluss $q_{zu}(t)$ ist die Stellgröße um den Füllstand $h(t)$ zu steuern. Das Ziel ist es, den Füllstand auf den gewünschten Sollwert $h_{soll}(t)$=\SI{10}{cm} zu bringen und dort zu halten.
+Dieser Teil simuliert eine Füllstandsreglung für einen Behälter ohne Abfluss. Der Behälter hat eine kreisförmige Querschnittsfläche mit einem Durchmesser von $D=$ \SI{17}{cm}. Der Flächeninhalt berechnet sich zu $A=\pi r^2=$ \SI{22.7}{mm^2}. Der Zufluss $q_{zu}(t)$ ist die Stellgröße um den Füllstand $h(t)$ zu steuern. Das Ziel ist es, den Füllstand auf den gewünschten Sollwert $h_{soll}(t)$=\SI{10}{cm} zu bringen und dort zu halten.
 
 \subsection{Simulink-Modell}
 Das Simulink-Modell besteht aus einem Integrator, der den Füllstand berechnet, basierend auf dem Zufluss. Der Integrator hat eine Verstärkung von $\frac{1}{A}$, um den Zusammenhang zwischen Zufluss und Füllstand zu berücksichtigen. Ein P-Regler wird verwendet, um die Stellgröße anzupassen, basierend auf dem Fehler zwischen dem Sollwert und dem tatsächlichen Füllstand. Der P-Regler und der Integrator sind die Regelstrecke. Das Blockschaltbild aus \textit{Simulink} ist in Abbildung \ref{blockschaltbild} abgebildet.  
@@ -12,7 +12,7 @@ Die Regelabweichung $e$ ist die Differenz zwischen Sollwert und Regelgröße.
     e=h_{soll}-h
 \end{equation}
 
-Um die Regelabweichung zu verarbeiten, wird diese mit dem einem Faktor $K_r$ verstärkt. Dieser Faktor wird im Folgenden Reglerverstärkung genannt. Mit größeren Reglerverstärkungen reagiert der Regelkreis empfindlicher auf die Regelabweichung. Der Zufluss wird dementsprechend erhöht und der Sollwert ist schneller erreicht im Vergleich zu kleineren Reglerverstärkungen.
+Um die Regelabweichung zu verarbeiten, wird diese mit dem Faktor $K_r$ verstärkt. Dieser Faktor wird im Folgenden Reglerverstärkung genannt. Mit größeren Reglerverstärkungen reagiert der Regelkreis empfindlicher auf die Regelabweichung. Der Zufluss wird dementsprechend erhöht und der Sollwert ist schneller erreicht im Vergleich zu kleineren Reglerverstärkungen.
 % stimmt das?
 % plots: sim laufzeit erhöhen für sichtbarkeit, dann plots einfügen
 
