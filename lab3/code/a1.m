@@ -3,7 +3,7 @@ params;
 disp('Parameters loaded');
 
 % simulate using simulink model
-sim_outputs = sim('regelstrecke_simulink', 'StopTime', '500');
+sim_outputs = sim('regelstrecke_simulink', 'StopTime', '20');
 disp('Simulation completed.');
 
 % extract data from simulink
@@ -27,8 +27,10 @@ ylabel('Werte');
 xlabel('Zeit [s]');
 legend('Strom i [A]', 'Moment M [mNm]', 'Drehzahl w [rpm]', 'Location', 'best');
 title('Simulationsergebnisse der Regelstrecke');
-xlim([0, 20]);
 hold off;
+
+% export plot
+% exportgraphics(gcf, './lab3/images/a1_regelstrecke_sim.png', 'Resolution', 300);
 
 % plot results in separate subplots
 figure('Name', 'Simulation der Regelstrecke - Einzeln');
@@ -37,14 +39,12 @@ plot(y_i.Time, y_i.Data, 'b', 'LineWidth', 1.5);
 grid on;
 ylabel('Strom i [A]');
 title('Stromverlauf');
-xlim([0, 20]);
 
 subplot(3,1,2);
 plot(y_M.Time, y_M.Data, 'r', 'LineWidth', 1.5);
 grid on;
 ylabel('Moment M [mNm]');
 title('Drehmomentverlauf');
-xlim([0, 20]);
 
 subplot(3,1,3);
 plot(y_w.Time, y_w.Data, 'g', 'LineWidth', 1.5);
@@ -52,7 +52,6 @@ grid on;
 ylabel('Drehzahl w [rpm]');
 title('Drehzahlverlauf');
 xlabel('Zeit [s]');
-xlim([0, 20]);
 
 % Zeitkonstante aus Diagramm bestimmen
 endwert = y_w.Data(end); % Endwert der Drehzahl
