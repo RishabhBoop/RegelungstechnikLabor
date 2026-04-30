@@ -1,5 +1,5 @@
 % load parameters
-a1_params;
+params;
 disp('Parameters loaded');
 
 % simulate using simulink model
