@@ -3,7 +3,7 @@ a1_params;
 disp('Parameters loaded');
 
 % simulate using simulink model
-sim_outputs = sim('a1_simulink', 'StopTime', '500');
+sim_outputs = sim('regelstrecke_simulink', 'StopTime', '500');
 disp('Simulation completed.');
 
 % extract data from simulink
