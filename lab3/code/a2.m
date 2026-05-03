@@ -37,7 +37,7 @@ xlabel('Zeit [s]');
 title('Regelgröße');
 
 sgtitle('Simulationsergebnisse der p-Regelung');
-% exportgraphics(gcf, './lab3/images/a2_p_regelung_sim.png', 'Resolution', 300);
+exportgraphics(gcf, './lab3/images/a2_p_regelung_sim_seperate.png', 'Resolution', 300);
 
 % Regelkreis ist nicht stationäre genau, da die Regelgröße nie die Führungsgröße erreicht
 
@@ -52,4 +52,4 @@ xlabel('Zeit [s]');
 legend('Führungsgröße [rpm]', 'Stellgröße [V]', 'Regelgröße [rpm]', 'Location', 'best');
 title('Simulationsergebnisse der p-Regelung');
 hold off;
-% exportgraphics(gcf, './lab3/images/a2_p_regelung_sim.png', 'Resolution', 300);
+exportgraphics(gcf, './lab3/images/a2_p_regelung_sim.png', 'Resolution', 300);

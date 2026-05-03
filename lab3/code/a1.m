@@ -30,7 +30,7 @@ title('Simulationsergebnisse der Regelstrecke');
 hold off;
 
 % export plot
-% exportgraphics(gcf, './lab3/images/a1_regelstrecke_sim.png', 'Resolution', 300);
+exportgraphics(gcf, './lab3/images/a1_regelstrecke_sim.png', 'Resolution', 300);
 
 % plot results in separate subplots
 figure('Name', 'Simulation der Regelstrecke - Einzeln');
@@ -52,6 +52,7 @@ grid on;
 ylabel('Drehzahl w [rpm]');
 title('Drehzahlverlauf');
 xlabel('Zeit [s]');
+exportgraphics(gcf, './lab3/images/a1_regelstrecke_sim_seperate.png', 'Resolution', 300);
 
 % Zeitkonstante aus Diagramm bestimmen
 endwert = y_w.Data(end); % Endwert der Drehzahl

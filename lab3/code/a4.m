@@ -48,11 +48,11 @@ xlabel('Zeit [s]');
 title('Störung');
 xlim([0, 20]);
 
-exportgraphics(gcf, './lab3/images/a3_pi_regelung_sim_100rad_stoerung_seperate.png', 'Resolution', 300);
+exportgraphics(gcf, './lab3/images/a4_pi_regelung_sim_100rad_stoerung_seperate.png', 'Resolution', 300);
 
 
 % plot results 
-figure('Name', 'Simulation der pi-Regelung');
+figure('Name', 'Simulation der pi-Regelung mit Störung');
 hold on;
 grid on;
 plot(y_f.Time, y_f.Data, 'b', 'LineWidth', 1.5);
@@ -65,4 +65,4 @@ legend('Führungsgröße [rad/s]', 'Stellgröße [V]', 'Regelgröße [rad/s]', '
 title('Simulationsergebnisse der pi-Regelung mit 100 rad/s Führungsgröße');
 xlim([0, 20]);
 hold off;
-exportgraphics(gcf, './lab3/images/a3_pi_regelung_sim_100rad_stoerung.png', 'Resolution', 300);
+exportgraphics(gcf, './lab3/images/a4_pi_regelung_sim_100rad_stoerung.png', 'Resolution', 300);
