@@ -18,18 +18,20 @@ sat_max = 10; % maximum value
 % ---------------- params for p-Regler ----------------
 Kr = 0.1; % 10[V]/100[rad/s] => 0.1[V/rad/s]
 init_value_regler = 0; % initial value 0V
-final_value_regler = 100; % final value 10V
+final_value_regler = 100; % final value 100rad/s
 step_time_regler = 1; % jump at 1s
 sample_time_regler = 0;
 
 % ---------------- params for pi-Regler ----------------
 Tn = 27; % in s; 27s (=> 1/TN = 0.037 1/s)
 init_value_regler_pi = 0; % initial value 0V
-final_value_regler_pi = 100; % final value 10V
+final_value_regler_pi = 100; % final value 100rad/s
 step_time_regler_pi = 1; % jump at 1s
 sample_time_regler_pi = 0;
 
-
-
-
+% ---------------- params for pi-Regler mit Störung ----------------
+init_value_stoerung = 0; % initial value 0V
+final_value_stoerung = 0.01; % final value MLast = 0.01Nm 
+step_time_stoerung = 10; % jump at 10s
+sample_time_stoerung = 0;
 
