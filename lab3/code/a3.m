@@ -31,7 +31,7 @@ exportgraphics(gcf, './lab3/images/a3_pi_regelung_sim_100rad.png', 'Resolution',
 % ----------- b) -----------
 final_value_regler_pi = 300; % final value 10V
 % simulate using simulink model
-sim_outputs = sim('drehzahlregelung_pi_regler', 'StopTime', '20');
+sim_outputs = sim('drehzahlregelung_pi_regler', 'StopTime', '40');
 disp('Simulation completed.');
 
 % extract data from simulink
@@ -51,6 +51,7 @@ ylabel('Werte');
 xlabel('Zeit [s]');
 legend('Führungsgröße [rad/s]', 'Stellgröße [V]', 'Regelgröße [rad/s]', 'Location', 'best');
 title('Simulationsergebnisse der pi-Regelung mit 300 rad/s Führungsgröße');
-xlim([0, 20]);
 hold off;
 exportgraphics(gcf, './lab3/images/a3_pi_regelung_sim_300rad.png', 'Resolution', 300);
+
+

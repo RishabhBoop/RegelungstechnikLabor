@@ -13,7 +13,7 @@ y_w = sim_outputs.logsout.get('w').Values; % Drehzahl extrahieren
 y_M = sim_outputs.logsout.get('M').Values; % Drehmoment extrahieren
 
 % change units
-y_w.Data = y_w.Data * (60/(2*pi)); % convert rad/s to rpm
+% y_w.Data = y_w.Data * (60/(2*pi)); % convert rad/s to rpm
 y_M.Data = y_M.Data * 1e3; % convert Nm to mNm
 
 % plot results in one plot
@@ -49,7 +49,7 @@ title('Drehmomentverlauf');
 subplot(3,1,3);
 plot(y_w.Time, y_w.Data, 'g', 'LineWidth', 1.5);
 grid on;
-ylabel('Drehzahl w [rpm]');
+ylabel('Drehzahl w [rad/s]');
 title('Drehzahlverlauf');
 xlabel('Zeit [s]');
 exportgraphics(gcf, './lab3/images/a1_regelstrecke_sim_seperate.png', 'Resolution', 300);
