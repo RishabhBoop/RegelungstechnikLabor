@@ -14,6 +14,7 @@
 *.xdv
 *-converted-to.pdf
 *.latexmain
+bericht.synctex(busy)
 
 # LaTeX directories
 build/
@@ -39,3 +40,4 @@ lab1/Einführung in Simulink TU München - Jörg Paschedag.pdf
 lab1/bericht.pdf
 lab1/MatlabSimulink_Kurzanleitung_V2.pdf
 example/bericht.pdf
+lab3/.$Signalflussbild.drawio.bkp
