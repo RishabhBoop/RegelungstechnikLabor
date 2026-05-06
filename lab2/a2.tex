@@ -15,12 +15,12 @@ Für dieses Modell wird das Modell in Abbildung \ref{blockschaltbild} um das Sig
     q_{eff}=q_{zu}-q_{ab}
 \end{equation}
 
-Der Regelkreis ist nicht stationär genau. Die Regelgröße nähert sich der Führungsgröße an. Die Stellgröße wird solange kleiner und die Störgröße größer, bis gilt: $q_{zu} = q_{ab}$. In diesem Fall ist der effektive Zufluss Null. Da aber der effektive Zufluss das Eingangssignal der Regelstrecke ist, wird die gesamte Regelstrecke zu Null gesetzt. Auch die Rückkopplung und damit die Regeldifferenz liefern nun den Wert Null. Aus Sicht des Reglers heißt eine Regeldifferenz von Null, dass die Regelgröße gleich der Führungsgröße ist. Damit ist die Regelung abgeschlossen, obwohl der gewünschte Füllstand noch nicht erreicht wurde. Der tatsächliche Füllstand heißt stationärer Endwert. Die Differenz zwischen der gewünschten Sollhöhe und dem stationären Endwert nennt man die absolute Regelabweichung. Je größer die Reglerverstärkung $K_r$ wird, desto kleiner wird die Abweichung. Eine vollständige Kompensation ist nur theoretisch möglich für $K_r \to \infty$. Praktisch ist ein P-Regler nicht geeignet für diese Aufgabe. Deswegen wird der P-Regler später durch einen integralen Anteil erweitert werden.
+Der Regelkreis ist nicht stationär genau. Die Regelgröße nähert sich der Führungsgröße an. Die Stellgröße wird so lange kleiner und die Störgröße größer, bis gilt: $q_{zu} = q_{ab}$. In diesem Fall ist der effektive Zufluss Null. Da aber der effektive Zufluss das Eingangssignal der Regelstrecke ist, wird die gesamte Regelstrecke zu Null gesetzt. Auch die Rückkopplung und damit die Regeldifferenz liefern nun den Wert Null. Aus Sicht des Reglers heißt eine Regeldifferenz von Null, dass die Regelgröße gleich der Führungsgröße ist. Damit ist die Regelung abgeschlossen, obwohl der gewünschte Füllstand noch nicht erreicht wurde. Der tatsächliche Füllstand heißt stationärer Endwert. Die Differenz zwischen der gewünschten Sollhöhe und dem stationären Endwert nennt man die absolute Regelabweichung. Je größer die Reglerverstärkung $K_r$ wird, desto kleiner wird die Abweichung. Eine vollständige Kompensation ist nur theoretisch möglich für $K_r \to \infty$. Praktisch ist ein P-Regler nicht geeignet für diese Aufgabe. Deswegen wird der P-Regler später durch einen integralen Anteil erweitert werden.
 
-Der Regelkreis wurde mit den selben fünf Reglerverstärkungen wie in Aufgabe 1 modelliert. Der Code ist in \ref{code_2a} dargestellt. Abbildung \ref{blockschaltbild_a} zeigt das Blockschaltbild des Regelkreises. Abbildung \ref{fig:a_plots_mit_abfluss} zeigt die zeitlichen Verläufe der Signale für die verschiedenen Reglerverstärkungen. Abbildung \ref{vergleich_a} vergleicht die stationären Endwerte. Die stationären Endwerte und die Regelabweichungen werden in Tabelle \ref{tab:reglerparameter} dargestellt..
+Der Regelkreis wurde mit denselben fünf Reglerverstärkungen wie in Aufgabe 1 modelliert. Der Code ist in \ref{code_2a} dargestellt. Abbildung \ref{blockschaltbild_a} zeigt das Blockschaltbild des Regelkreises. Abbildung \ref{fig:a_plots_mit_abfluss} zeigt die zeitlichen Verläufe der Signale für die verschiedenen Reglerverstärkungen. Abbildung \ref{vergleich_a} vergleicht die stationären Endwerte. Die stationären Endwerte und die Regelabweichungen werden in Tabelle \ref{tab:reglerparameter} dargestellt..
 
 \begin{sourcecode}
-    \caption{\textit{Matlab}-Code zur Simulation und Berechung der stationären Regelabweichung}
+    \caption{\textit{Matlab}-Code zur Simulation und Berechnung der stationären Regelabweichung}
     \begin{minted}{matlab}
 % Regelgröße: h, Führungsgröße: h_soll, Stellgröße: q_zu, Störgröße: q_ab
 Kr_vector = [0.002, 0.004, 0.006, 0.008, 0.01]; % Reglerverstärkungen
@@ -328,7 +328,7 @@ Abbildung \ref{blockschaltbild_b} zeigt das Modell. Der \textit{Matlab}-Code ist
         \includegraphics[trim=0cm 9.5cm 0cm 1cm, clip, width=0.9\textwidth]{graphix/b_modell_mit_abfluss_TN_6.20.png}
     \end{subfigure}
     
-    \caption{\textit{Matlab}-Plots für verschiedene Rückstellzeiten}
+    \caption{\textit{Matlab}-Plots für verschiedene Nachstellzeiten}
     \label{fig:b_plots_mit_abfluss}
 \end{figure}
 
@@ -342,7 +342,7 @@ Abbildung \ref{blockschaltbild_b} zeigt das Modell. Der \textit{Matlab}-Code ist
 
 \begin{table}[h]
     \centering
-    \caption{Reglerverstärkungen und Regelabweichungen}
+    \caption{Rückstellzeiten und Überschwinger}
     \label{tab:uberschwinger}
         \begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}X|>
         {\centering\arraybackslash}X|}
@@ -383,7 +383,7 @@ Eine physikalisch exakte Beschreibung des Ausflussverhaltens von Wasser liefert 
     q_{ab}(t)=k\cdot \sqrt{h(t)} \quad \Longrightarrow \quad k=\frac{q_{ab}(t)}{\sqrt{h(t)}} = 0.0013416
 \end{equation}
 
-In Abbildung \ref{blockschaltbild_b} wird der Ausgang der Regelstrecke über den proportionalen Faktor $c$ rückgekoppelt. Dieser Faktor muss entsprechend des Satzes von Torricelli erweitert werden. Zuerst wird der Betrag des Signals gebildet, um negative Eingänge für den nachfolgenden Wurzelblock zu vermeiden. Danach wird das Signal um den Faktor $k$ verstärkt. Der Code für die Simulation ist in \ref{code_2c} zu finden. Das erweiterte Modell ist in Abbildung \ref{blockschaltbild_c} abgebildet. Die Simulation arbeitet mit den selben Werten für die Reglerverstärkung und die Nachstellzeit: $K_r=$ \SI{0.006}{} und $T_n=$ \SI{6.2}{s}. Der zeitliche Verlauf der Signale ist in Abbildung \ref{plot_c} abgebildet.
+In Abbildung \ref{blockschaltbild_b} wird der Ausgang der Regelstrecke über den proportionalen Faktor $c$ rückgekoppelt. Dieser Faktor muss entsprechend des Satzes von Torricelli erweitert werden. Zuerst wird der Betrag des Signals gebildet, um negative Eingänge für den nachfolgenden Wurzelblock zu vermeiden. Danach wird das Signal um den Faktor $k$ verstärkt. Der Code für die Simulation ist in \ref{code_2c} zu finden. Das erweiterte Modell ist in Abbildung \ref{blockschaltbild_c} abgebildet. Die Simulation arbeitet mit denselben Werten für die Reglerverstärkung und die Nachstellzeit: $K_r=$ \SI{0.006}{} und $T_n=$ \SI{6.2}{s}. Der zeitliche Verlauf der Signale ist in Abbildung \ref{plot_c} abgebildet.
 
 Der PI-Regler zeigt auch mit dem nichtlinearen Torricelli-Abflussgesetz eine sehr gute stationäre Genauigkeit. Der Füllstand erreicht einen stationären Endwert von $h(t \to \infty) = $ \SI{10.05}{cm}. Die Regelabweichung beträgt nur 0.48\%, was praktisch einer exakten Regelung entspricht.
 Im Vergleich zum linearen Abflussmodell zeigt das Torricelli-Modell ein verändertes Einschwingverhalten. Die nichtlineare Kennlinie führt zu einer geringeren Dämpfung, was sich in einem größeren Überschwinger bemerkbar macht.
