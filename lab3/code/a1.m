@@ -15,6 +15,7 @@ y_M = sim_outputs.logsout.get('M').Values; % Drehmoment extrahieren
 % change units
 % y_w.Data = y_w.Data * (60/(2*pi)); % convert rad/s to rpm
 y_M.Data = y_M.Data * 1e3; % convert Nm to mNm
+y_i.Data = y_i.Data * 10; % convert A to 10 mA
 
 % plot results in one plot
 figure('Name', 'Simulation der Regelstrecke');
@@ -25,9 +26,10 @@ plot(y_M.Time, y_M.Data, 'r', 'LineWidth', 1.5);
 plot(y_w.Time, y_w.Data, 'g', 'LineWidth', 1.5);
 ylabel('Werte');
 xlabel('Zeit [s]');
-legend('Strom i [A]', 'Moment M [mNm]', 'Drehzahl w [rpm]', 'Location', 'best');
+legend('Strom i [10 mA]', 'Moment M [mNm]', 'Drehzahl w [rad/s]', 'Location', 'best', 'FontSize', 14);
 title('Simulationsergebnisse der Regelstrecke');
 hold off;
+set(gcf, 'Position', [100, 100, 1200, 800]);
 
 % export plot
 exportgraphics(gcf, './lab3/images/a1_regelstrecke_sim.png', 'Resolution', 300);
@@ -37,7 +39,7 @@ figure('Name', 'Simulation der Regelstrecke - Einzeln');
 subplot(3,1,1);
 plot(y_i.Time, y_i.Data, 'b', 'LineWidth', 1.5);
 grid on;
-ylabel('Strom i [A]');
+ylabel('Strom i [10 mA]');
 title('Stromverlauf');
 
 subplot(3,1,2);

@@ -21,10 +21,11 @@ plot(y_s.Time, y_s.Data, 'r', 'LineWidth', 1.5);
 plot(y_r.Time, y_r.Data, 'g', 'LineWidth', 1.5);
 ylabel('Werte');
 xlabel('Zeit [s]');
-legend('Führungsgröße [rad/s]', 'Stellgröße [V]', 'Regelgröße [rad/s]', 'Location', 'best');
+legend('Führungsgröße [rad/s]', 'Stellgröße [V]', 'Regelgröße [rad/s]', 'Location', 'best', 'FontSize', 14);
 title('Simulationsergebnisse der pi-Regelung mit 100 rad/s Führungsgröße');
 xlim([0, 20]);
 hold off;
+set(gcf, 'Position', [100, 100, 1200, 800]);
 exportgraphics(gcf, './lab3/images/a3_pi_regelung_sim_100rad.png', 'Resolution', 300);
 
 
@@ -49,9 +50,10 @@ plot(y_s.Time, y_s.Data, 'r', 'LineWidth', 1.5);
 plot(y_r.Time, y_r.Data, 'g', 'LineWidth', 1.5);
 ylabel('Werte');
 xlabel('Zeit [s]');
-legend('Führungsgröße [rad/s]', 'Stellgröße [V]', 'Regelgröße [rad/s]', 'Location', 'best');
+legend('Führungsgröße [rad/s]', 'Stellgröße [V]', 'Regelgröße [rad/s]', 'Location', 'best', 'FontSize', 14);
 title('Simulationsergebnisse der pi-Regelung mit 300 rad/s Führungsgröße');
 hold off;
+set(gcf, 'Position', [100, 100, 1200, 800]);
 exportgraphics(gcf, './lab3/images/a3_pi_regelung_sim_300rad.png', 'Resolution', 300);
 
 

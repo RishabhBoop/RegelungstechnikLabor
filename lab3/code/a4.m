@@ -12,6 +12,9 @@ y_s = sim_outputs.logsout.get('Stellgröße').Values; % Stellgröße extrahieren
 y_r = sim_outputs.logsout.get('Regelgröße').Values; % Regelgröße extrahieren
 y_st = sim_outputs.logsout.get('Störung').Values; % Störung extrahieren
 
+% change units
+y_st.Data = y_st.Data * 1e3; % convert Nm to mNm
+
 
 % plot results 
 figure('Name', 'Simulation der pi-Regelung mit Störung');
@@ -40,7 +43,7 @@ title('Regelgröße');
 subplot(2, 2, 4);
 grid on;
 plot(y_st.Time, y_st.Data, 'm', 'LineWidth', 1.5);
-ylabel('Störung [Nm]');
+ylabel('Störung [mNm]');
 xlabel('Zeit [s]');
 title('Störung');
 
@@ -57,7 +60,8 @@ plot(y_r.Time, y_r.Data, 'g', 'LineWidth', 1.5);
 plot(y_st.Time, y_st.Data, 'm', 'LineWidth', 1.5);
 ylabel('Werte');
 xlabel('Zeit [s]');
-legend('Führungsgröße [rad/s]', 'Stellgröße [V]', 'Regelgröße [rad/s]', 'Störung [Nm]', 'Location', 'best');
+legend('Führungsgröße [rad/s]', 'Stellgröße [V]', 'Regelgröße [rad/s]', 'Störung [mNm]', 'Location', 'best', 'FontSize', 14);
 title('Simulationsergebnisse der pi-Regelung mit 100 rad/s Führungsgröße');
 hold off;
+set(gcf, 'Position', [100, 100, 1200, 800]);
 exportgraphics(gcf, './lab3/images/a4_pi_regelung_sim_100rad_stoerung.png', 'Resolution', 300);
