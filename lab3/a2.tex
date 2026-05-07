@@ -1,0 +1,23 @@
+% !TeX root = bericht.tex
+\section{Aufgabe 2 - Regelung mit einem P-Regler}
+Das Ziel dieser Aufgabe ist es, die Drehzahl des Gleichstrommotors mit einem P-Regler zu regeln.
+\subsection{Signalflussbild}
+Wir verwenden die Regelstrecke aus Kapitel \ref{subsec:signalflussbild} und fügen davor einen P-Regler hinzu. Zwischen Regler und Regelstrecke wird noch ein Saturation-Block hinzugefügt, um die maximale Spannung von \pm 10V zu begrenzen.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{p-regler_sim.png}
+    \caption{Signalflussbild der Regelung mit einem P-Regler}
+\end{figure}
+
+\subsection{Regelung auf 100 rad/s}
+\label{sub:p_regler}
+Das Ziel ist es, die Drehzahl auf 100 rad/s zu regeln.
+Dazu müssen wir den Verstärkungsfaktor $K_r$ des P-Reglers so wählen, sodass die Regelung die gewünschte Drehzahl erreicht werden kann.
+Es wurde ein Verstärkungsfaktor von $K_r = 0.1$ gewählt, da $100 \: rad/s \cdot 0.1 = 10 V$ ergibt.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{a2_p_regelung_sim.png}
+    \caption{Simulationsergebnis der Regelung mit einem P-Regler auf 100 rad/s}
+    \label{abb:p_regler}
+\end{figure}
+Man sieht hier, dass der Regler Stationär ungenau ist, da die Drehzahl nicht die gewünschte 100 rad/s erreicht.

@@ -1,0 +1,24 @@
+% !TeX root = bericht.tex
+\section{Aufgabe 4 - PI-Regler mit Lastmoment}
+In den vorherigen Aufgaben haben wir unser Motor ohne Lastmoment geregeelt.
+Hierfür müssen wir unsere Regelstrecke leicht anpassen um die Störung zu berücksichtigen.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{strecke_mit_stoerung.png}
+    \caption{Simulink Modell der Regelstrecke mit Stoerung}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{pi-regler_mit_stoerung.png}
+    \caption{Simulink Modell des Reglers mit PI-Regler mit Lastmoment}
+\end{figure}
+In der Simulation wurde ein Lastmoment von $0.01 Nm$ bei $t=10s$ hinzugefügt.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{a4_pi_regelung_sim_100rad_stoerung.png}
+    \caption{Simulationsergebnis der Regelung mit einem PI-Regler auf 100 rad/s mit Lastmoment}
+\end{figure}
+
+Hier kann man gut erkennen, dass der PI-Regler auch eine Störung von $10 mNm$ ausgleichen kann.
