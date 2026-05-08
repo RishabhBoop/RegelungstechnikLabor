@@ -21,25 +21,21 @@ Das Signalflussbild sieht dann wie folgt aus:
     \caption{Signalflussbild des Elektromotors}
 \end{figure}
 Für das Signalflussbild wurden die folgenden Parameter verwendet:
-% K=30e-3; % in Nm/A; 30 mN*m/A
-% J = 4e-4; % in kg*m^2; 4000 g*cm^2
-% R=6; % in ohm; 6 Ohm
-% L=120e-6; % in H; 120µH
 \begin{itemize}
-    \item $R = 6 \, \Omega$
-    \item $L = 120 \, \mu H$
-    \item $K = 30 \, mNm/A$
-    \item $J = 4000 \, g \cdot cm^2$
+    \item $R = \SI{6}{\ohm}$
+    \item $L = \SI{120}{\micro\henry}$
+    \item $K = \SI{30}{\milli\newton\meter\per\ampere}$
+    \item $J = \SI{4000}{\gram\centi\meter\squared}$
 \end{itemize}
 
 \subsection{Simulation mit Simulink}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{regelstrecke_sim.png}
+    \includegraphics[width=1.0\textwidth]{images/regelstrecke_sim.png}
     \caption{Simulink Modell der Regelstrecke}
 \end{figure}
-Die Regelstrecke wurde in Simulink für 20s simuliert. 
-Als Eingangssignal wurde ein Sprung von 0V auf 10V bei $t=0s$ verwendet.
+Die Regelstrecke wurde in Simulink für \SI{20}{\second} simuliert. 
+Als Eingangssignal wurde ein Sprung von \SI{0}{\volt} auf \SI{10}{\volt} bei $t=\SI{0}{\second}$ verwendet.
 
 \begin{sourcecode}[H]
     \caption{\textit{Matlab}-Code zur Simulation}
@@ -53,8 +49,9 @@ sample_time = 0;
 \end{minted}
 \end{sourcecode}
 
-Um die Simulation durchzuführen, wurde in einem MATLAB-Skript die Simulink-Funktion \texttt{sim} verwendet, um das Simulink-Modell zu starten.
-Die Simulationsergebnisse wurden dann extrahiert, skaliert und in einem Diagramm geplottet.
+Um die Simulation durchzuführen werden zuerst die parameter geladen. 
+Dann wird in einem MATLAB-Skript die Simulink-Funktion \texttt{sim} verwendet, um das Simulink-Modell zu starten.
+Die Simulationsergebnisse werden dann extrahiert, skaliert und in einem Diagramm geplottet.
 
 \begin{sourcecode}[H]
     \caption{\textit{Matlab}-Code zur Simulation}
@@ -68,8 +65,7 @@ sim_outputs = sim('regelstrecke_simulink', 'StopTime', '20');
 disp('Simulation completed.');
 
 % extract data from simulink
-y_i = sim_outputs.logsout.get('i').Values; % Strmo extrahieren
-y_u = sim_outputs.logsout.get('u').Values; % Eingang (Spannung) extrahieren
+y_i = sim_outputs.logsout.get('i').Values; % Strom extrahieren
 y_w = sim_outputs.logsout.get('w').Values; % Drehzahl extrahieren
 y_M = sim_outputs.logsout.get('M').Values; % Drehmoment extrahieren
 
@@ -96,19 +92,22 @@ exportgraphics(gcf, './lab3/images/a1_regelstrecke_sim.png', 'Resolution', 300);
     \end{minted}
 \end{sourcecode}
 
-Daraus erhalten wir die folgenden Simulationsergebnisse:
+Die Simulation ergibt folgendes Diagramm für das Eigenverhalten des Motors:
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{a1_regelstrecke_sim.png}
+    \includegraphics[width=0.9\textwidth]{images/a1_regelstrecke_sim.png}
     \caption{Simulationsergebnisse der Regelstrecke}
 \end{figure}
 
-Man sieht hier, dass unser Motor eine maximale Drehzahl von ca. 322 rad/s erreciht.
-Dies ist das Eigenverhalten von unserem Motor.
+Hieraus ist ersichtlich, dass der Motor eine maximale Drehzahl von ca. \SI{322}{\radian\per\second} erreicht. 
+Man kann auch sehen, dass die Drehzahl als PT1-Glied angenähert werden kann.
 
-\subsection{Zeitkonstante}
+\subsection{Zeitkonstante ermitteln}
 \label{sub:regelstrecke_tau}
-Die Zeitkonstante $\tau$ der Regelstrecke kann aus der Simulationsergebnisse berechnet werden.
+Da die Drehzahl $y_w$ als PT1-Glied angenähert werden kann, können wir die Zeitkonstante $\tau$ der Regelstrecke kann aus den Simulationsergebnissen berechnet werden.
+Wir nehmen hierbei an, dass die Regelstrecke nach $\SI{20}{\second}$ den Endwert erreicht hat.
+Die Zeitkonstante $\tau$ ist definiert als die Zeit, die die Regelstrecke benötigt, um 63\% des Endwerts zu erreichen.
+Daher müssen wir nur den Zeitpunkt ermitteln, an dem die Drehzahl 63\% des Endwerts erreicht.
 \begin{sourcecode}[H]
     \caption{\textit{Matlab}-Code zur Berechnung der Zeitkonstante}
     \begin{minted}{matlab}

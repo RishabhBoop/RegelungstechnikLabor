@@ -1,41 +1,44 @@
 % !TeX root = bericht.tex
 \section{Aufgabe 3 - Regelung mit einem PI-Regler}
-Da ein P-Regler nicht stationär genau ist, wollen wir nun einen PI-Regler verwenden, um die Drehzahl auf 100 rad/s zu regeln.
+Da ein P-Regler nicht stationär genau ist, wollen wir nun einen PI-Regler verwenden, um die Drehzahl auf \SI{100}{\radian\per\second} zu regeln.
 \subsection{Signalflussbild}
 Wir verwenden die Regelstrecke aus Kapitel \ref{subsec:signalflussbild} und fügen davor einen PI-Regler hinzu. 
-Wie auch beim PI-Regler fügen wir zwischen Regler und Regelstrecke wird noch ein Saturation-Block hinzu, um die maximale Spannung von \pm 10V zu begrenzen.
+Wie auch beim P-Regler fügen wir zwischen Regler und Regelstrecke noch einen Saturation-Block hinzu, um die maximale Spannung von $\pm \SI{10}{\volt}$ zu begrenzen.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{pi-regler_sim.png}
     \caption{Signalflussbild der Regelung mit einem PI-Regler}
 \end{figure}
-\subsection{Regelung auf 100 rad/s}
+\subsection{Regelung auf \SI{100}{\radian\per\second}}
 Ein PI-Regler hat die Form:
 \begin{equation}
     y(t) = K_R \cdot \left[ e(t) + \frac{1}{T_N} \int e(t) \, dt \right]
 \end{equation}
-Der Verstärungsfaktor $K_R$ wurde wie der P-Regler (\ref{sub:p_regler}) gewählt.
+Der Verstärkungsfaktor $K_R$ wurde wie der P-Regler (\ref{sub:p_regler}) gewählt.
 Die Zeitkonstante des Integrators $T_N$ wurde so gewählt, dass die Regelung schnell genug ist, um die gewünschte Drehzahl zu erreichen, aber nicht zu schnell, 
 um Überschwingen zu vermeiden.
-Aus der Simulation der Regelstrecke (\ref{sub:regelstrecke_tau}) wissen wir, dass die Zeitkonstante der Regelstrecke ca. $\tau = 3.0365 s$. 
+Aus der Simulation der Regelstrecke (\ref{sub:regelstrecke_tau}) wissen wir, dass die Zeitkonstante der Regelstrecke ca. $\tau = \SI{3.0365}{\second}$. 
 Damit die Regelung schnell genug ist, wurde eine Zeitkonstante von $T_N = \tau$ gewählt.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{a3_pi_regelung_sim_100rad.png}
-    \caption{Simulationsergebnis der Regelung mit einem PI-Regler auf 100 rad/s}
+    \includegraphics[width=0.9\textwidth]{images/a3_pi_regelung_sim_100rad.png}
+    \caption{Simulationsergebnis der Regelung mit einem PI-Regler auf \SI{100}{\radian\per\second}}
     \label{abb:pi_regler}
 \end{figure}
-Man erkennt hier, dass der PI-Regler stationär genau ist, da die Drehzahl die gewünschten 100 rad/s erreicht.
-\subsection{Regelung auf 300 rad/s}
-Wenn wir unsere Führungsgröße auf bspsw. 300 rad/s erhöhen, dann tritt ein Überschwingen auf.
+% Es lässt sich erkennen, dass der PI-Regler stationär genau ist, da die Drehzahl den Sollwert von \SI{100}{\radian\per\second} erreicht.
+Man kann hier klar erkennen, dass der PI-Regler stationär genau ist. Die Führungsgröße kann erreicht und gehalten werden. 
+Bei PI-Regler kann jedoch ein Problem auftreten, wenn die Führungsgröße zu hoch gewählt wird. Dieses Problem wird im nächsten Abschnitt beschrieben. 
+
+\subsection{Regelung auf \SI{300}{\radian\per\second}}
+Bei Erhöhung der Führungsgröße auf z. B. \SI{300}{\radian\per\second} tritt ein Überschwingen auf.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{a3_pi_regelung_sim_300rad.png}
-    \caption{Simulationsergebnis der Regelung mit einem PI-Regler auf 300 rad/s}
+    \includegraphics[width=0.9\textwidth]{images/a3_pi_regelung_sim_300rad.png}
+    \caption{Simulationsergebnis der Regelung mit einem PI-Regler auf \SI{300}{\radian\per\second}}
     \label{abb:pi_regler_300rad}
 \end{figure}
 Dieses Problem nennt man \textit{Integral windup}.
-Das Problem tritt auf, da die Führungsgröße so hoch ist, dass der Regler mehr als die maximal mögliche Spannung von 10V ausgeben möchte, um die gewünschte Drehzahl zu erreichen.
-Da die Spannung aber auf 10V begrenzt ist, muss die Stellgröße für eine längere Zeit auf 10V bleiben, um die gewünschte Drehzahl zu erreichen. Währenddessen wird der Fehler im Integrator aufsummiert.
+Das Problem tritt auf, da die Führungsgröße so hoch ist, dass der Regler mehr als die maximal mögliche Spannung von \SI{10}{\volt} ausgeben möchte, um die gewünschte Drehzahl zu erreichen.
+Da die Spannung aber auf \SI{10}{\volt} begrenzt ist, muss die Stellgröße für eine längere Zeit auf \SI{10}{\volt} bleiben, um die gewünschte Drehzahl zu erreichen. Währenddessen wird der Fehler im Integrator aufsummiert.
 Wenn die gewünschte Drehzahl erreicht wird, dann ist der Fehler im Integrator so groß, dass es zu einem Überschwingen kommt.
 Es braucht danach eine Weile, bis der Fehler im Integrator wieder auf 0 ist, damit die Regelung stabil wird.
