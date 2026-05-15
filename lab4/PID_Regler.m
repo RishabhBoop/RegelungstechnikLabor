@@ -11,7 +11,7 @@ clc;
 savetofolder = '/home/ruth/Desktop/Uni/8. Semester Sensorik/Regelungstechnik/Labor/4 Stabilität/A3';
 
 % Simulation
-run_time = 1;
+run_time = 0.1;
 set_param('PIDRegler', 'StopTime', 'run_time');
 set_param('PIDRegler', 'StartTime', '0');
 
@@ -21,9 +21,9 @@ R1 = 10e3; %R1=R2=R3=R5
 R4 = 1e3;
 
 % zum "ausprobieren"
-R6 = 500;
+R6 = 22e3;
 C2 = 1e-6;
-C3 = 1e-6;
+C3 = 1e-9;
 
 % PID-Regler
 P = 1;
@@ -54,6 +54,25 @@ end
 
 fprintf('Simulation abgeschlossen.\n');
 
+% t* berechnen
+
+zielwert = 5;
+untergrenze = 0.98 * zielwert;
+obergrenze = 1.02 * zielwert;
+ausreisser = find(y < untergrenze | y > obergrenze);
+
+if isempty(ausreisser)
+    t_stern = 0;
+else
+    letzter_ausreisser = ausreisser(end);
+    if letzter_ausreisser < length(t)
+        t_stern = t(letzter_ausreisser + 1);
+    else
+        t_stern = NaN;
+    end
+end
+fprintf('Eintritt in das Intervall [0.98, 1.02] erfolgt bei t*=%.3fs \n', t_stern);
+
 % plot
 figure('Name', sprintf('R6=%.1e, C2=%.1e, C3=%.1e', R6, C2, C3), ...
        'Position', [100, 100, 1000, 700]);
@@ -75,6 +94,6 @@ hold off;
 filename = fullfile(savetofolder, sprintf('PID_Regler_R6=%.1e.png', R6));
 saveas(gcf, filename);
 fprintf('Plot gespeichert.\n\n');
-close(gcf);
+%close(gcf);
 
 
