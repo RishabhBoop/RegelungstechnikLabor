@@ -11,20 +11,25 @@ clc;
 savetofolder = '/home/ruth/Desktop/Uni/8. Semester Sensorik/Regelungstechnik/Labor/4 Stabilität/A2';
 
 % Simulation
-run_time = 0.05;
-open_system('PRegler');
-set_param('PRegler', 'StopTime', 'run_time');
-set_param('PRegler', 'StartTime', '0');
+run_time = 0.15;
+%set_param('PRegler', 'StopTime', 'run_time');
+%set_param('PRegler', 'StartTime', '0');
+set_param('PRegler_Rauschquelle', 'StopTime', 'run_time');
+set_param('PRegler_Rauschquelle', 'StartTime', '0');
 
 %reglerverstärkungen
-K_values = [1, 4, 7, 8.75, 10];
+% für 2 b:
+% K_values = [1, 4, 7, 8.75, 10];
+% für 2 d:
+K_values = 10;
 n_sim = length(K_values);
 T_vector = zeros(1, n_sim);
 
 for i = 1:n_sim
     K_actual = K_values(i);
     assignin('base', 'K', K_actual); 
-    simOut = sim("PRegler.slx");
+    %simOut = sim("PRegler.slx");
+    simOut = sim("PRegler_Rauschquelle.slx");
     
     if isstruct(simOut)
         t = simOut.tout;
@@ -68,4 +73,19 @@ for i = 1:n_sim
     fprintf('Plot für K=%.2f gespeichert.\n\n', K_actual);
     close(gcf);
 end
+
+% für 2e: schwingfrequenz berechnen
+nullstellen = find(y(1:end-1) < 0 & y(2:end) >= 0);
+
+if length(nullstellen) >= 2
+    t_nullstellen = t(nullstellen);
+    T = mean(diff(t_nullstellen));
+    omega = (2 * pi) / T;
+
+    fprintf('Kreisfrequenz: %2.f rad/s\n', omega)
+
+else
+    fprintf('Keine Schwingung');
+end
+
 
