@@ -1,4 +1,41 @@
 % !TeX root = bericht.tex
 \section{Aufgabe 2: Regelkreis mit P-Regler}
-Der geschlossene Regelkreis nach Gleichung (9) wird in \textit{Simulink} implementiert. Die Regelverstärkung $K_R$ wird durch ein P-Glied realisiert. Um die Stellgröße auf $\pm 12$ zu begrenzen, wird ein Saturation-Block vor der Regelstrecke eingefügt. 
+Der geschlossene Regelkreis nach Gleichung (9) wird in \textit{Simulink} implementiert. Die Regelverstärkung $K_R$ wird durch ein P-Glied realisiert. Um die Stellgröße auf $\pm 12$ zu begrenzen, wird ein Saturation-Block vor der Regelstrecke eingefügt. Abbildung \ref{blockschaltbild_abc} zeigt das Modell. Am Eingang des Reglers wird ein Führungsgrößensprung von $w(t)=4 \cdot \sigma(t)$ eingefügt. Das Verhalten des Regelkreises wird für fünf unterschiedliche Regelverstärkungen $K_R$ untersucht. Drei Werte sind kleiner als der kritische Wert $K_k$ aus Gleichung (8), ein Wert ist gleich $K_k$ und ein Wert ist größer. 
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{graphix/2_a_b_c_model.png}
+    \caption{Blockschaltbild (Screenshot aus \textit{Simulink})}
+    \label{blockschaltbild_2abc}
+\end{figure}
+
+\begin{figure}[p]
+    \centering
+    \begin{subfigure}{\textwidth}
+    \centering
+            \includegraphics[trim=0cm 8cm 0cm 0.5cm, clip, width=0.9\textwidth]{graphix/P_Regler_K_1.00.png}
+    \end{subfigure}
+    
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[trim=0cm 8cm 0cm 0.5cm, clip, width=0.9\textwidth]{graphix/P_Regler_K_4.00.png}
+    \end{subfigure}
+    
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[trim=0cm 8cm 0cm 0.5cm, clip, width=0.9\textwidth]{graphix/P_Regler_K_7.00.png}
+    \end{subfigure}
+    
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[trim=0cm 8cm 0cm 0.5cm, clip, width=0.9\textwidth]{graphix/P_Regler_K_8.75.png}
+    \end{subfigure}
+    
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[trim=0cm 8cm 0cm 0.5cm, clip, width=0.9\textwidth]{graphix/P_Regler_K_10.00.png}
+    \end{subfigure}
+    
+    \caption{\textit{Matlab}-Plots für verschiedene Reglerverstärkungen}
+    \label{fig:2b_plots}
+\end{figure}
