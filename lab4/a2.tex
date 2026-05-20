@@ -3,18 +3,7 @@
 
 \section{Aufgabe 3: Regelkreis mit PID-Regler}
 
-Für diese Aufgabe wird der Regelkreis aus Abbildung \ref{blockschaltbild_2e} erweitert. Das P-Glied mit dem Verstärkungsfaktor $K_R$ wird durch einen PID-Regler ersetzt. Der elektronische Aufbau des PID-Reglers ist in Abbildung \ref{PID_schaltung} zu finden. Die Werte für die Widerstände $R_1$ bis $R_5$ sind fest vorgegeben.
-
-\begin{equation}
-    R_1=R_2=R_3=R_5=10 k\Omega , \qquad R_4=1 k\Omega
-\end{equation}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{graphix/PID_Schaltung.png}
-    \caption{Elektronischer Aufbau des PID-Reglers (Screenshot aus der Aufgabenstellung)}
-    \label{PID_schaltung}
-\end{figure}
+Für diese Aufgabe wird der Regelkreis aus Abbildung \ref{blockschaltbild_2e} erweitert. Das P-Glied mit dem Verstärkungsfaktor $K_R$ wird in Abbildung \ref{blockschaltbild_3} durch einen PID-Regler ersetzt. Der elektronische Aufbau des PID-Reglers ist in Abbildung \ref{PID_schaltung} zu finden. Die Werte für die Widerstände $R_1$ bis $R_5$ sind in Gleichung (12) fest vorgegeben.
 
 \begin{figure}[H]
     \centering
@@ -23,11 +12,22 @@ Für diese Aufgabe wird der Regelkreis aus Abbildung \ref{blockschaltbild_2e} er
     \label{blockschaltbild_3}
 \end{figure}
 
-Die Werte für $C_2$, $C_3$ und $R_6$ sollen so bestimmt werden, dass das System möglichst schnell, aber ohne Überschwinger auf einen Führungsgrößensprung reagiert. Dieser ist definiert als $w(t)=5\cdot \sigma(t)$. Um diese Werte zu ermitteln, wird die Schaltung aus Abbildung \ref{PID_schaltung} in vier Subsysteme zerlegt. Diese werden jeweils durch ihre Übertragungsfunktionen im Bildbereich beschrieben: $G_1$, $G_2$, $G_3$ und $G_4$. Die Gesamtübertragungsfunktion $G$ des Systems setzt sich zusammen aus den Übertragungsfunktionen der Subsysteme. $G_4$ ist ein invertierender Verstärker, an dessen Eingang die drei anderen Subsysteme über den Widerstand $R_5$ verbunden sind. $G_3$ ist auch ein invertierender Verstärker. $G_2$ ist ein Integrierer. $G_1$ ist ein Differenzierer, welchem der Widerstand $R_4$ vorgeschaltet ist. Für hohe Frequenzen ($\omega \to \infty$) geht die Impedanz des Kondensators gegen Null ($X_{C3}=\frac{1}{j\omega C_3} \to 0)$. Der Kondensator wirkt dann wie ein Kurzschluss, und $G_1$ wird zu einem einfachen Invertierer mit der Verstärkung $V=\frac{-R_3}{R_4}=10$. Die allgemeinen Übertragungsfunktionen der einzelnen Schaltungstypen sind bekannt. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{graphix/PID_Schaltung.png}
+    \caption{Elektronischer Aufbau des PID-Reglers\\ (Screenshot aus der Aufgabenstellung)}
+    \label{PID_schaltung}
+\end{figure}
+
+\begin{equation}
+    R_1=R_2=R_3=R_5= \SI{10}{\kilo\ohm}, \qquad R_4=\SI{1}{\kilo\ohm}
+\end{equation}
+
+Die Werte für $C_2$, $C_3$ und $R_6$ sollen so bestimmt werden, dass das System möglichst schnell, aber ohne Überschwinger auf einen Führungsgrößensprung reagiert. Dieser ist definiert als $w(t)=5\cdot \sigma(t)$. Um diese Werte zu ermitteln, wird die Schaltung aus Abbildung \ref{PID_schaltung} in vier Subsysteme zerlegt. Diese werden jeweils durch ihre Übertragungsfunktionen im Bildbereich beschrieben: $G_1$, $G_2$, $G_3$ und $G_4$. Die Gesamtübertragungsfunktion $G$ des Systems setzt sich zusammen aus den Übertragungsfunktionen der Subsysteme. $G_4$ ist ein invertierender Verstärker, an dessen Eingang die drei anderen Subsysteme über den Widerstand $R_5$ verbunden sind. $G_3$ ist auch ein invertierender Verstärker. $G_2$ ist ein Integrierer. $G_1$ ist ein Differenzierer, welchem der Widerstand $R_4$ vorgeschaltet ist. Für hohe Frequenzen ($\omega \to \infty$) geht die Impedanz des Kondensators gegen Null ($X_{C3}=\frac{1}{j\omega C_3} \to 0)$. Der Kondensator wirkt dann wie ein Kurzschluss, und $G_1$ wird zu einem einfachen Invertierer mit der Verstärkung $V=\frac{-R_3}{R_4}=10$. Die allgemeinen Übertragungsfunktionen der einzelnen Schaltungstypen sind bekannt. $G(s)$ wird in Gleichung (13) aus den bekannten Übertragungsfunktionen zusammengesetzt.
 
 \begin{equation}
     \begin{split}
-        &G(s)=\frac{-R_6}{R_5} \left( G_1(s) + G_2(s) + G_3(s) \right)\\
+        G(s)&=\frac{-R_6}{R_5} \left( G_1(s) + G_2(s) + G_3(s) \right)\\
         &=\frac{R_6}{R_5} \left( R_3C_3\cdot \frac{s}{1+s\cdot R_4 C_3} + \frac{1}{R_2 C_3}\cdot \frac{1}{s}+1 \right)
     \end{split}
 \end{equation}
@@ -35,27 +35,52 @@ Die Werte für $C_2$, $C_3$ und $R_6$ sollen so bestimmt werden, dass das System
 Die allgemeine Übertragungsfunktion einen PID-Gliedes wird in \textit{Simulink} nach Gleichung (14) dargestellt.
 
 \begin{equation}
-    G(s)=P + I\cdot \frac{1}{s} + D \cdot \frac{N}{1+N\frac{1}{s}}
+    G(s)=P + I\cdot \frac{1}{s} + D \cdot \frac{N}{1+N\cdot\frac{1}{s}}
 \end{equation}
 
-Durch einen Vergleich von Gleichung (13) und Gleichung (14) können die Parameter definiert werden. Der Vorfaktor vor Gleichung (13) wird durch ein P-Glied mit der Verstärkung $F$ vor dem PID-Glied realisiert.
+Durch einen Vergleich von Gleichung (13) und Gleichung (14) können die Parameter definiert werden. Der Vorfaktor vor Gleichung (13) wird durch ein P-Glied mit der Verstärkung $F$  vor dem PID-Glied realisiert.
 
 \begin{equation}
-    F=\frac{R_6}{R_5}, \qquad P=1, \qquad I=\frac{1}{R_2C_2}, \qquad D=R_3C_3, \qquad N=\frac{1}{R_3 R_4}
+    F=\frac{R_6}{R_5}, \qquad P=1, \qquad I=\frac{1}{R_2C_2}, \qquad D=R_3C_3, \qquad N=\frac{1}{C_3 R_4}
 \end{equation}
 
-Die fehlenden Werte werden durch systematisches Probieren ermittelt. Als erstes wird für $C_2=1000F$ ein sehr hoher Wert und für $C_3=1pF$ ein sehr kleiner Wert festgelegt. Damit wird die Wirkung des I-Anteils und des D-Anteils minimiert. Dann wird $R_6$ schrittweise erhöht, bis die Regelgröße dem Sprung folgt, aber noch unter dem Zielwert bleibt. Dann wird $C_2$ schrittweise verringert, um die stationäre Regelabweichung auszugleichen. Für kleinere Werte für $C_2$ wird der I-Anteil stärker, wodruch die Regeldifferenz schneller ausgeglichen wird. Zu kleine Werte führen jedoch zu Überschwingern. Für größere Werte für $R_6$ reagiert das System schneller. Zu große Werte führen jedoch auch zu Überschwingern. Um die Überschwingungen zu dämpfen, muss der D-Anteil gestärkt werden. Dies geschieht durch eine Erhöhung von $C_3$. Die zeitlichen Signalverläufe der so ermittelten Werte sind in Abbildung \ref{3_plot} abgebildet. Nach $t^*=38ms$ tritt die Regelgröße in das Intervall $[0.98, 1.02]$ um die Fürhungsgröße ein. In diesem Intervall beträgt die Abweichung von der Führungsgröße maximal $2\%$, die Regelung ist also schon ziemlich genau. Der Code zur Berechnung von $t^*$ ist in \ref{code_3d} abgebildet.
+Die fehlenden Werte werden durch systematisches Probieren ermittelt. Als erstes wird für $C_2=\SI{1000}{\farad}$ ein sehr hoher Wert und für $C_3=\SI{1}{\pico\farad}$ ein sehr kleiner Wert festgelegt. Damit werden die Wirkungen des I-Anteils und des D-Anteils minimiert. Dann wird $R_6$ schrittweise erhöht, bis die Regelgröße dem Sprung folgt, aber noch unter dem Zielwert bleibt. Dann wird $C_2$ schrittweise verringert, um die stationäre Regelabweichung auszugleichen. Für kleinere Werte für $C_2$ wird der I-Anteil stärker, wodurch die Regeldifferenz schneller ausgeglichen wird. Zu kleine Werte führen jedoch zu Überschwingern. Für größere Werte für $R_6$ reagiert das System schneller. Zu große Werte führen jedoch auch zu Überschwingern. Um die Überschwingungen zu dämpfen, muss der D-Anteil gestärkt werden. Dies geschieht durch eine Erhöhung von $C_3$. Die zeitlichen Signalverläufe der so ermittelten Werte sind in Abbildung \ref{3_plot} abgebildet. Nach $t^*=4ms$ tritt die Regelgröße in das Intervall $[0.98, 1.02]$ um die Führungsgröße ein. In diesem Intervall beträgt die Abweichung von der Führungsgröße maximal $2\%$, die Regelung ist also schon ziemlich genau. Der Code zur Berechnung von $t^*$ ist in \ref{code_3d} abgebildet.
 
 \begin{equation}
-    R_6=22k\Omega, \qquad C_2=1\mu F, \qquad C_3=1pF
+    R_6=\SI{30}{\kilo\ohm}, \qquad C_2=\SI{390}{\nano\farad}, \qquad C_3=\SI{60}{\nano\farad}
 \end{equation}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[trim=1.8cm 9.5cm 1.8cm 0.5cm, clip, width=\textwidth]{graphix/PID_Regler_R6=2.2e+04.png}
+    \includegraphics[trim=1.8cm 9.5cm 1.8cm 0.5cm, clip, width=\textwidth]{graphix/PID_Regler_R6=3.0e+04.png}
     \caption{\textit{Matlab}-Plot}
     \label{3_plot}
 \end{figure}
+
+\newpage
+\begin{sourcecode}[h]
+    \caption{\textit{Matlab}-Code zur Definition und Berechnung der Parameter}
+    \begin{minted}{matlab}
+        %parameter
+        K = 10;
+        R1 = 10e3; %R1=R2=R3=R5
+        R4 = 1e3;
+
+        % zum "ausprobieren"
+        R6 = 30e3;
+        C2 = 390e-9;
+        C3 = 60e-9;
+
+        % PID-Regler
+        P = 1;
+        I = 1/(C2 * R1);
+        D = R1 * C3;
+        N = 1 / (C3 * R4);
+        F = R6 / R1; %=3                                
+    \end{minted}
+\label{code_parameter_3d}
+\end{sourcecode}
+
 
 
 \begin{sourcecode}[h]

@@ -11,7 +11,7 @@ clc;
 savetofolder = '/home/ruth/Desktop/Uni/8. Semester Sensorik/Regelungstechnik/Labor/4 Stabilität/A3';
 
 % Simulation
-run_time = 0.1;
+run_time = 0.01;
 set_param('PIDRegler', 'StopTime', 'run_time');
 set_param('PIDRegler', 'StartTime', '0');
 
@@ -21,16 +21,17 @@ R1 = 10e3; %R1=R2=R3=R5
 R4 = 1e3;
 
 % zum "ausprobieren"
-R6 = 22e3;
-C2 = 1e-6;
-C3 = 1e-9;
+R6 = 30e3;
+% C2 = 370e-9;
+C2 = 390e-9;
+C3 = 60e-9;
 
 % PID-Regler
 P = 1;
 I = 1/(C2 * R1);
 D = R1 * C3;
-N = 1 / (R1 * R4);
-F = R6 / R1;
+N = 1 / (C3 * R4);
+F = R6 / R1; %=3
 
 simOut = sim("PIDRegler.slx");
 

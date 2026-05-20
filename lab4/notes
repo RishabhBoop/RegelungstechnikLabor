@@ -6,3 +6,8 @@ to do:
 - matlab code einfügen
 - korrektur lesen
 - einheiten
+
+R6 = 30e3;
+% C2 = 370e-9;
+C2 = 390e-9;
+C3 = 60e-9;

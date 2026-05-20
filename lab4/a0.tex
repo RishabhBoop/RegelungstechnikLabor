@@ -4,56 +4,62 @@ Dieser Laborversuch untersucht die Stabilität eines Regelkreises. Es wird eine 
 
 
 \section{Aufgabe 1: Regelstrecke}
-Die Regelstrecke besteht aus drei seriellen PT$_1$-Gliedern. Die Übertragungsfunktionen der einzelnen Glieder werden multipliziert und ergeben die Gesamtübertragungsfunktion $G_s(s)$ im Bildbereich. Die Verstärkungsfaktoren $k_n$ und die Zeitkonstanten $T_n$ sind wie folgt definiert:
+Die Regelstrecke besteht aus drei seriellen PT$_1$-Gliedern. Das Signalflussdiagramm der Regelstrecke ist in Abbildung \ref{fig:regelstrecke} abgebildet. Die Übertragungsfunktionen der einzelnen Glieder werden multipliziert und ergeben Gleichung (2), die Gesamtübertragungsfunktion $G_s(s)$ im Bildbereich. Die Verstärkungsfaktoren $k_n$ und die Zeitkonstanten $T_n$ sind in Gleichung (1) definiert.
+
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[
+        % Definition der Stile für die Blöcke und Linien
+        block/.style={draw, rectangle, minimum height=1.2cm, minimum width=2.2cm, align=center, fill=white, thick},
+        line/.style={draw, -{Stealth[scale=1.2]}, thick}
+    ]
+
+        % 1. Die Blöcke (PT1-Glieder) platzieren
+        % Erster Block
+        \node[block] (pt1) {\Large $\frac{K_1}{1 + s\cdot T_1}$};
+        
+        % Zweiter Block (rechts neben dem ersten)
+        \node[block, right=1.5cm of pt1] (pt2) {\Large $\frac{K_2}{1 + s\cdot T_2}$};
+        
+        % Dritter Block (rechts neben dem zweiten)
+        \node[block, right=1.5cm of pt2] (pt3) {\Large $\frac{K_3}{1 + s\cdot T_3}$};
+
+        % 2. Ein- und Ausgänge definieren (unsichtbare Punkte für die Pfeile)
+        \node[left=1.2cm of pt1] (input) {};
+        \node[right=1.2cm of pt3] (output) {};
+
+        % 3. Die Pfeile zeichnen und beschriften
+        % Eingangssignal
+        \path[line] (input) -- node[above, pos=0.2] {$U(s)$} (pt1);
+        
+        % Verbindung 1 zu 2
+        \path[line] (pt1) -- (pt2);
+        
+        % Verbindung 2 zu 3
+        \path[line] (pt2) -- (pt3);
+        
+        % Ausgangssignal
+        \path[line] (pt3) -- node[above, pos=0.8] {$Y(s)$} (output);
+
+    \end{tikzpicture}
+    \caption{Signalflussdiagramm der Regelstrecke}
+    \label{fig:regelstrecke}
+\end{figure}
 
 \begin{equation}
     k_1=k_2=k_3=1
     \qquad
-    T_1=1ms, \quad T_2=0.75ms, \quad T_3=0.25ms
+    T_1=\SI{1}{\milli\second}, \quad T_2=\SI{0.75}{\milli\second}, \quad T_3=\SI{0.5}{\milli\second}
 \end{equation}
 
 \begin{equation}
     G_s(s)= \prod_{n=1}^{3} G_n(s)
     =
-    \prod_{n=1}^{3} \frac{k_n}{T_n} \cdot \frac{1}{s+\frac{1}{T_n}}
+    \prod_{n=1}^{3} \frac{k_n}{1+s\cdot T_n}
 \end{equation}
 
-\begin{tikzpicture}[
-    % Definition der Stile für die Blöcke und Linien
-    block/.style={draw, rectangle, minimum height=1.2cm, minimum width=2.2cm, align=center, fill=white, thick},
-    line/.style={draw, -{Stealth[scale=1.2]}, thick}
-]
-
-    % 1. Die Blöcke (PT1-Glieder) platzieren
-    % Erster Block
-    \node[block] (pt1) {\Large $\frac{K_1}{T_1 s + 1}$};
-    
-    % Zweiter Block (rechts neben dem ersten)
-    \node[block, right=1.5cm of pt1] (pt2) {\Large $\frac{K_2}{T_2 s + 1}$};
-    
-    % Dritter Block (rechts neben dem zweiten)
-    \node[block, right=1.5cm of pt2] (pt3) {\Large $\frac{K_3}{T_3 s + 1}$};
-
-    % 2. Ein- und Ausgänge definieren (unsichtbare Punkte für die Pfeile)
-    \node[left=1.2cm of pt1] (input) {};
-    \node[right=1.2cm of pt3] (output) {};
-
-    % 3. Die Pfeile zeichnen und beschriften
-    % Eingangssignal
-    \path[line] (input) -- node[above, pos=0.2] {$U(s)$} (pt1);
-    
-    % Verbindung 1 zu 2
-    \path[line] (pt1) -- (pt2);
-    
-    % Verbindung 2 zu 3
-    \path[line] (pt2) -- (pt3);
-    
-    % Ausgangssignal
-    \path[line] (pt3) -- node[above, pos=0.8] {$Y(s)$} (output);
-
-\end{tikzpicture}
-
-Das Signal $Y(s)$ ist phasenverschoben gegenüber dem Signal $U(s)$. Es die Kreisfrequenz $\omega_{\pi}$ gesucht, bei der die Phasenverschiebung $-180^\circ$ beträgt. Zur Berechnung wird die Übertragungsfunktion $G_s(s)$ in den Fruequenzbereich transformiert, indem $s$ durch $j\omega$ ersetzt wird. 
+Das Signal $Y(s)$ ist phasenverschoben gegenüber dem Signal $U(s)$. Es ist die Kreisfrequenz $\omega_{\pi}$ gesucht, bei der die Phasenverschiebung $-180^\circ$ beträgt. Zur Berechnung wird die Übertragungsfunktion $G_s(s)$ in den Frequenzbereich transformiert, indem $s$ durch $j\omega$ ersetzt wird. 
 
 \begin{equation}
     G_s(\omega_{\pi}) 
@@ -65,27 +71,26 @@ Das Signal $Y(s)$ ist phasenverschoben gegenüber dem Signal $U(s)$. Es die Krei
     \pi
 \end{equation}
 
-Durch Äquivalenzumformungen kann die Kreisfrequenz $\omega_{\pi}$ berechnet werden. Es ergibt sich:
+Durch Äquivalenzumformungen in Gleichung (4) wird das Nennerpolynom der Übertragungsfunktion als Summe von Realteil und Imaginärteil dargestellt.
 
 \begin{equation}
     \begin{split}
-    &\frac{1}{(1+j \omega_{\pi} T_1)(1+j \omega_{\pi} T_2)(1+j \omega_{\pi} T_3)}= \frac{\pi}{k_1 k_2 k_3}  \\
-    &= \dots = \frac{1}{1-\omega^2 \cdot A + j \cdot (\omega \cdot B - \omega^3 \cdot C)} = \frac{1}{z} \\[1ex]
-    &\Leftrightarrow z \in \mathbb{C}: \quad \operatorname{Re}(z)=1-\omega^2 \cdot A \quad \text{und} \quad \operatorname{Im}(z)=\omega \cdot B - \omega^3 \cdot C
+    &\frac{1}{(1+j \omega_{\pi} T_1)(1+j \omega_{\pi} T_2)(1+j \omega_{\pi} T_3)}= \frac{\pi}{k_1 k_2 k_3}  = \dots = \frac{1}{1-\omega^2 \cdot A + j \cdot (\omega \cdot B - \omega^3 \cdot C)} = \frac{1}{z} \\[1ex]
+    & z \in \mathbb{C}: \quad \operatorname{Re}(z)=1-\omega^2 \cdot A \quad \text{und} \quad \operatorname{Im}(z)=\omega \cdot B - \omega^3 \cdot C
     \end{split}
 \end{equation}
 
-Für die Konstanten $A$, $B$ und $C$ ergeben sich folgende Werte:
+Für die Konstanten $A$, $B$ und $C$ ergeben sich die Werte in Gleichung (5).
 
 \begin{equation}
-    A=T_1 T_2 + T_1 T_3 + T_2 T_3 = 1.1875 \times 10{-6}s
-    \qquad
-    B=T_1+T_2+T_3 = 2 \times 10{-3}s
-    \qquad
-    C=T_1 T_2 T_3 = 0.1875 \times 10{-69}s
+    \begin{split}
+        &A=T_1 T_2 + T_1 T_3 + T_2 T_3 = \SI{1.1875}{\micro\second}\\
+        &B=T_1+T_2+T_3 = \SI{2}{\milli\second} \\
+        &C=T_1 T_2 T_3 = \SI{0.1875}{\nano\second} 
+    \end{split}
 \end{equation}
 
-Eine Phasenverschiebung von $-180^\circ$ bedeutet, dass $G_s(\omega_{\pi})$ rein reell und negativ sein muss. Deswegen muss der Imaginärteil von $z$ Null sein. Daraus ergibt sich folgende Bedingung.
+Eine Phasenverschiebung von $-180^\circ$ bedeutet, dass $G_s(\omega_{\pi})$ rein reell und negativ sein muss. Deswegen muss der Imaginärteil von $z$ Null sein. Aus Gleichung (4) lässt sich mit dieser Bedingung die gesuchte Kreisfrequenz $\omega_{\pi}$ in Gleichung (6) berechnen.
 
 \begin{equation}
     \begin{split}
@@ -93,21 +98,20 @@ Eine Phasenverschiebung von $-180^\circ$ bedeutet, dass $G_s(\omega_{\pi})$ rein
     \quad \Leftrightarrow \quad
     \omega_{\pi} \cdot B = \omega_{\pi}^3 \cdot C
     \quad \Leftrightarrow \quad
-    \omega_{\pi}=\sqrt{\frac{B}{C}}=2.449 \, \text{krad/s} 
+    \omega_{\pi}=\sqrt{\frac{B}{C}}= \SI[per-mode=fraction]{2.449}{\kilo\radian\per\second}
     \end{split}
 \end{equation}
 
-Für die Übertragungsfunktion im Frequenzbereich ergibt sich damit:
+Mit diesem Ergebniss lässt sich in Gleichung (7) die Reglerverstärkung berechnen. 
 
 \begin{equation}
     \begin{split}
-    &G_s(\omega_{\pi}) = \frac{1}{(1+\omega_{\pi} T_1)(1+\omega_{\pi} T_2)(1+\omega_{\pi} T_3)} = \frac{1}{1-\omega_{\pi}^2 \cdot A + 0} \\
-    &= \frac{1}{1-\omega_{\pi}^2 \cdot (T_1 T_2 + T_1 T_3 + T_2 T_3)} \\
-    &= \frac{1}{-8.75} = \frac{1}{-\frac{35}{4}}=-\frac{4}{35} 
+    G_s(\omega_{\pi}) &= \frac{1}{(1+\omega_{\pi} T_1)(1+\omega_{\pi} T_2)(1+\omega_{\pi} T_3)} = \frac{1}{1-\omega_{\pi}^2 \cdot A + 0} \\
+    &= \frac{1}{1-\omega_{\pi}^2 \cdot (T_1 T_2 + T_1 T_3 + T_2 T_3)} = \frac{1}{-8.75} = \frac{1}{-\frac{35}{4}}=-\frac{4}{35} 
     \end{split}
 \end{equation}
 
-Nach dem Stabilitätskriterium von Nyquist darf der Betrag der Regelverstärkung an der Stelle der $180^{\circ}$-Phasendrehung maximal $1$ sein, damit das System gerade noch stabil bleibt. Dieser kritische Wert für die Reglerverstärkung heißt $K_k$.
+Nach dem Stabilitätskriterium von Nyquist darf der Betrag der Regelverstärkung an der Stelle der $180^{\circ}$-Phasendrehung maximal Eins sein, damit das System gerade noch stabil bleibt. Dieser kritische Wert für die Reglerverstärkung heißt $K_k$.
 
 \begin{equation}
     |K_k\cdot G_s(\omega_{\pi})| \leq 1
@@ -123,20 +127,20 @@ Der geschlossene Regelkreis hat die Übertragungsfunktion $G(s)$, wobei $G_s(s)$
     G(s) =\frac{K_R \cdot G(s)}{1+K_R\cdot G_s(s)}
 \end{equation}
 
-Um die Stabilität des Systems zu bewerten, sind die Polstellen des Regelkreises entscheidend. Die Polstellen sind die Nullstellen des Nenners von $G(s)$. Das nennerpolynom muss so umgefromt werden, dass die charakteristische GLeichung entsteht. Aus dieser können die Koeffizienten für die Bewertung des Kurrwitz-Kriteriums abgelesen wernde. 
+Um die Stabilität des Systems zu bewerten, sind die Polstellen des Regelkreises entscheidend. Die Polstellen sind die Nullstellen des Nenners von $G(s)$. Das Nennerpolynom muss nach Gleichung (10) so umgeformt werden, dass die charakteristische Gleichung entsteht. Aus dieser können die Koeffizienten für die Bewertung des Hurrwitz-Kriteriums abgelesen werden. 
 
 \begin{equation}
     \begin{split}
-        &1+K_R\cdot G_s(s)=1+ \frac{K_R}{1-\omega^2 \cdot A}=0
+        0 &=1+K_R\cdot G_s(s)=1+ \frac{K_R}{1-\omega^2 \cdot A}= \dots
         \\
-        &= \dots = 1+ K_R+ s\cdot (T_1+T_2 + T_3) + s^2\cdot (T_1T_2+T_2T_3+T_1T_3) + s^3 \cdot T_1 T_2 T_3 =0 \\
-        &=a_0 + s\cdot a_1 + s^2 \cdot a_2 + s^3 \cdot a_3 =0 \\
-        &\text{mit} \quad a_0 = 1+K_R, \quad a_1=B, \quad a_2=A, \quad a_3=C
+        & = 1+ K_R+ s\cdot (T_1+T_2 + T_3) + s^2\cdot (T_1T_2+T_2T_3+T_1T_3) + s^3 \cdot T_1 T_2 T_3 \\
+        &=a_0 + s\cdot a_1 + s^2 \cdot a_2 + s^3 \cdot a_3 \\
+        \text{mit} &\quad a_0 = 1+K_R, \quad a_1=B, \quad a_2=A, \quad a_3=C
     \end{split}
 \end{equation}
 
 Das Hurrwitz-Kriterium besagt, dass alle Koeffizienten positiv sein müssen und dass die Determinante der Hurrwitz-Matrix positiv sein muss, damit das System stabil ist. Für $K_R=K_k=\frac{35}{4}$ wird das Hurrwitz-Kriterium gerade noch erfüllt, da die Determinante der Hurrwitz-Matrix Null ist. Für $K_R>K_k$ ist die Determinante negativ und das System instabil.
 
 \begin{equation}
-    a_1\cdot a_2 = a_0\cdot a_3 = 3.66\times 10^{-9}s
+    a_1\cdot a_2 = a_0\cdot a_3 = \SI{3.66}{\nano\second}
 \end{equation}
