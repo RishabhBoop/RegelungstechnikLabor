@@ -31,6 +31,7 @@
 \RequirePackage[ngerman]{babel}
 \RequirePackage{csquotes}
 \RequirePackage{setspace}
+\RequirePackage[document]{ragged2e}
 
 %% ---- Lua ---- %%
 \RequirePackage{luacode}
@@ -240,28 +241,28 @@
 
 
 \begin{luacode*}
-Authors = {}
+    Authors = {}
 
-function addAuthor(name, matrikelnummer)
+    function addAuthor(name, matrikelnummer)
     table.insert(Authors, {name = name, matrikelnummer = matrikelnummer})
-end
+    end
 
-function printHauptautor()
+    function printHauptautor()
     -- first in list is Hauptautor
     tex.print("\\avantfont{" .. Authors[1].name .. "}")
-end
+    end
 
-function printGruppenMitglieder()
+    function printGruppenMitglieder()
     -- don't print anything if no authors were added
     if #Authors == 0 then return end
-    
+
     local membersList = {}
     for _, author in ipairs(Authors) do
-        table.insert(membersList, author.name .. " (" .. author.matrikelnummer .. ")")
+    table.insert(membersList, author.name .. " (" .. author.matrikelnummer .. ")")
     end
-    
+
     tex.print("\\avantfont{\\textbf{Gruppenmitglieder:}} & \\avantfont{" .. table.concat(membersList, ", ") .. "} \\\\[2ex]")
-end
+    end
 
 \end{luacode*}
 
@@ -285,8 +286,8 @@ end
         % Positions for middle and lower text blocks
         \coordinate (StudiengangPos) at ($ (current page.north west) + (2cm, -10cm) $);
         \coordinate (BerichtTypPos) at ($ (StudiengangPos) + (0, -0.7cm) $);
-        \coordinate (VersuchNamePos) at ($ (BerichtTypPos) + (0, -1.5cm) $);
-        \coordinate (AutorenPos) at ($ (VersuchNamePos) + (0, -2.5cm) $);
+        \coordinate (VersuchNamePos) at ($ (BerichtTypPos) + (0, -2.0cm) $);
+        \coordinate (AutorenPos) at ($ (VersuchNamePos) + (0, -2.0cm) $);
         \coordinate (FooterPos) at ($ (current page.south west) + (2cm, 1.5cm) $); % Position near bottom-left
 
         %%% Text Blocks %%%
@@ -307,8 +308,15 @@ end
         \node[anchor=west, text width=15cm] at (BerichtTypPos) {\avantfont{\@berichttyp}};
 
         % Main Title (VersuchName) - Large, Bold, Themed Color
-        \node[anchor=west, text width=15cm, ThemeColor] at (VersuchNamePos) {
-            \sffamily\bfsf{\Huge \@title} % Argument 4: VersuchName
+        % Main Title (VersuchName) - Large, Bold, Themed Color
+        \node[anchor=west, text width=12cm, ThemeColor, align=justify] at (VersuchNamePos) {
+            % \setlength{\baselineskip}{11pt} % Adjust this value for global title spacing
+            % \sffamily\bfsf{\Huge \@title}\par
+            % \fontsize{25pt}{22pt}\selectfont\sffamily\bfsf \@title\par
+            \begin{flushleft}
+                \fontsize{25pt}{22pt}\selectfont\sffamily\bfsf \@title\par
+            \end{flushleft}
+            % \huge\sffamily\bfsf \@title\par
         };
 
         % Authors Block
@@ -320,8 +328,8 @@ end
             \begin{tabular}{@{}p{4.5cm} p{10.5cm}@{}}
                 \avantfont{\textbf{Gruppennummer:}} & \avantfont{\@gruppennummer} \\[2ex]
                 \directlua{printGruppenMitglieder()}
-                \avantfont{\textbf{Betreuer:}} & \avantfont{\@betreuer} \\[2ex]
-                \avantfont{\textbf{Datum:}} & \avantfont{\@date}
+                \avantfont{\textbf{Betreuer:}}      & \avantfont{\@betreuer}      \\[2ex]
+                \avantfont{\textbf{Datum:}}         & \avantfont{\@date}
             \end{tabular}
             \endgroup
         };
