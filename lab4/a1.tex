@@ -3,22 +3,32 @@
 \section{Aufgabe 2: Regelkreis mit P-Regler}
 
 \subsection{Systemverhalten mit Führungsgrößensprung}
-    Der geschlossene Regelkreis nach Gleichung (9) wird in \textit{Simulink} implementiert. Die Regelverstärkung $K_R$ wird durch ein P-Glied realisiert. Um die Stellgröße auf $\pm 12$ zu begrenzen, wird ein Saturation-Block vor der Regelstrecke eingefügt. Abbildung \ref{blockschaltbild_2abc} zeigt das Model. Am Eingang des Reglers wird ein Führungsgrößensprung von $w(t)=4 \cdot \sigma(t)$ eingefügt. Das Verhalten des Regelkreises wird für fünf unterschiedliche Regelverstärkungen $K_R$ untersucht. Drei Werte sind kleiner als der kritische Wert $K_k$ aus Gleichung (8), ein Wert ist gleich $K_k$ und ein Wert ist größer. Abbildung \ref{fig:2b_plots} zeigt die zeitlichen Verläufe von Stellgröße, Regelgröße und Führungsgröße. Der Code für die Simulation ist in \ref{code_2a} zu finden.
+Der geschlossene Regelkreis nach Gleichung \ref{eqn:closed_tf} wird in \textit{Simulink} implementiert. Die Regelverstärkung $K_R$ wird durch ein P-Glied realisiert. 
+Um die Stellgröße auf $\pm 12$ zu begrenzen, wird ein Saturation-Block vor der Regelstrecke eingefügt. Abbildung \ref{blockschaltbild_2abc} zeigt das Model. 
+Am Eingang des Reglers wird ein Führungsgrößensprung von $w(t)=4 \cdot \sigma(t)$ eingefügt. 
+Das Verhalten des Regelkreises wird für fünf unterschiedliche Regelverstärkungen $K_R$ untersucht. 
+Drei Werte sind kleiner als der kritische Wert $K_k$ aus Gleichung (\ref{eqn:kk}), ein Wert ist gleich $K_k$ und ein Wert ist größer. 
+Abbildung \ref{fig:2b_plots} zeigt die zeitlichen Verläufe von Stellgröße, Regelgröße und Führungsgröße. Der Code für die Simulation ist in \ref{code_2a} zu finden.
 
-    Für Reglerverstärkungen unter dem kritischen Wert ($K_R < K_k$) ist das System stabil. Es schwingt sich auf einen stationär ungenauen Wert ein, welcher kleiner als der Führungsgrößensprung ist. Für eine Annährung von $K_R$ gegen $K_k$ nährt sich auch der stationäre Endwert dem Führungsgrößensprung an. Für Reglerverstärkungen gleich oder größer dem kritischen Wert ($K_R \geq K_k$) ist das System instabil und hat eine Schwingungsneigung. Ohne den Saturation-Block würde das System aufschwingen. Der Saturation-Block begrenzt die Amplitude der Schwingung. Für die Bewertung der Stabilität ist die Stellgröße ein besserer Indikator als die Regelgröße, da sie nicht durch den Saturation-Block beschränkt wird. 
+Für Reglerverstärkungen unter dem kritischen Wert ($K_R < K_k$) ist das System stabil. 
+Es schwingt sich auf einen stationär ungenauen Wert ein, welcher kleiner als der Führungsgrößensprung ist. 
+Für eine Annährung von $K_R$ gegen $K_k$ nährt sich auch der stationäre Endwert dem Führungsgrößensprung an. 
+Für Reglerverstärkungen gleich oder größer dem kritischen Wert ($K_R \geq K_k$) ist das System instabil und hat eine Schwingungsneigung. 
+Ohne den Saturation-Block würde das System aufschwingen. Der Saturation-Block begrenzt die Amplitude der Schwingung. 
+Für die Bewertung der Stabilität ist die Stellgröße ein besserer Indikator als die Regelgröße, da sie nicht durch den Saturation-Block beschränkt wird.
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.9\textwidth]{graphix/2_a_b_c_model.png}
-        \caption{Blockschaltbild (Screenshot aus \textit{Simulink})}
-        \label{blockschaltbild_2abc}
-    \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{graphix/2_a_b_c_model.png}
+    \caption{Blockschaltbild (Screenshot aus \textit{Simulink})}
+    \label{blockschaltbild_2abc}
+\end{figure}
 
 \newpage
 
-    \begin{sourcecode}[H]
-        \caption{\textit{Matlab}-Code zur Simulation mit verschiedenen Reglerverstärkungen}
-        \begin{minted}{matlab}
+\begin{sourcecode}[H]
+    \caption{\textit{Matlab}-Code zur Simulation mit verschiedenen Reglerverstärkungen}
+    \begin{minted}{matlab}
             % Simulation
             run_time = 0.15;
             set_param('PRegler', 'StopTime', 'run_time');
@@ -81,70 +91,80 @@
             end                        
         \end{minted}
     \label{code_2a}
-    \end{sourcecode}
+\end{sourcecode}
 \newpage
 
-    \begin{figure}[H]
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{\textwidth}
         \centering
-        \begin{subfigure}{\textwidth}
-        \centering
-                \includegraphics[trim=0cm 9cm 0cm 1cm, clip, width=0.9\textwidth]{graphix/P_Regler_K_1.00.png}
-        \end{subfigure}
-        
-        \begin{subfigure}{\textwidth}
-            \centering
-            \includegraphics[trim=0cm 9cm 0cm 1cm, clip, width=0.9\textwidth]{graphix/P_Regler_K_4.00.png}
-        \end{subfigure}
-        
-        \begin{subfigure}{\textwidth}
-            \centering
-            \includegraphics[trim=0cm 9cm 0cm 1cm, clip, width=0.9\textwidth]{graphix/P_Regler_K_7.00.png}
-        \end{subfigure}
-        
-        \begin{subfigure}{\textwidth}
-            \centering
-            \includegraphics[trim=0cm 9cm 0cm 1cm, clip, width=0.9\textwidth]{graphix/P_Regler_K_8.75.png}
-        \end{subfigure}
-        
-        \begin{subfigure}{\textwidth}
-            \centering
-            \includegraphics[trim=0cm 9cm 0cm 1cm, clip, width=0.9\textwidth]{graphix/P_Regler_K_10.00.png}
-        \end{subfigure}
-        
-        \caption{\textit{Matlab}-Plots für verschiedene Reglerverstärkungen}
-        \label{fig:2b_plots}
-    \end{figure}
+        \includegraphics[trim=0cm 9cm 0cm 1cm, clip, width=0.9\textwidth]{graphix/P_Regler_K_1.00.png}
+    \end{subfigure}
 
-    \newpage
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[trim=0cm 9cm 0cm 1cm, clip, width=0.9\textwidth]{graphix/P_Regler_K_4.00.png}
+    \end{subfigure}
+
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[trim=0cm 9cm 0cm 1cm, clip, width=0.9\textwidth]{graphix/P_Regler_K_7.00.png}
+    \end{subfigure}
+
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[trim=0cm 9cm 0cm 1cm, clip, width=0.9\textwidth]{graphix/P_Regler_K_8.75.png}
+    \end{subfigure}
+
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[trim=0cm 9cm 0cm 1cm, clip, width=0.9\textwidth]{graphix/P_Regler_K_10.00.png}
+    \end{subfigure}
+
+    \caption{\textit{Matlab}-Plots für verschiedene Reglerverstärkungen}
+    \label{fig:2b_plots}
+\end{figure}
+
+\newpage
 \subsection{Systemverhalten ohne Führungsgrößensprung}
-    Dasselbe System wird nun ohne Führungsgrößensprung beobachtet ($w(t)=0$). Es wird der Fall des instabilen Systems mit $K_R=10$ betrachtet. Abbildung \ref{2_d_plot_w_0} zeigt die Signalverläufe. Ohne eine Erregung von außen (Führungsgrößensprung) oder von innen (Anfangsbedingungen ungleich Null) bleibt das System in Ruhe. Die Differenz am Summenpunkt ist immer Null. Deswegen werden Stell- und Regelgröße nie aktiv. Dieses Verhalten ist korrekt in einer idealen mathematischen Umgebung. In einem realen Regelkreis gibt es immer Rauschen aufgrund thermischer Unruhen und kleinerer Ungenauigkeiten. Ein reales instablies System würde durch diese Störungen sofort aufschwingen.  
+Dasselbe System wird nun ohne Führungsgrößensprung beobachtet ($w(t)=0$). Es wird der Fall des instabilen Systems mit $K_R=10$ betrachtet. Abbildung \ref{2_d_plot_w_0} zeigt die Signalverläufe. 
+Ohne eine Erregung von außen (Führungsgrößensprung) oder von innen (Anfangsbedingungen ungleich Null) bleibt das System in Ruhe. 
+Die Differenz am Summenpunkt ist immer Null. Deswegen werden Stell- und Regelgröße nie aktiv. Dieses Verhalten ist korrekt in einer idealen mathematischen Umgebung. 
+In einem realen Regelkreis gibt es immer Rauschen aufgrund thermischer Unruhen und kleinerer Ungenauigkeiten. 
+Ein reales instablies System würde durch diese Störungen sofort aufschwingen.
 
-    Um das reale System besser zu simulieren wird eine Rauschquelle als Störsignal eingefügt. Die Rauschquelle wird dem Signal am Ausgang der Regelstrecke überlagert, bevor das Signal an den Eingang des Reglers rückgekoppelt wird. In \textit{Simulink} gibt es dafür den Block \textit{Uniform Random Number}. Das erweiterte Model ist in Abbildung \ref{blockschaltbild_2e} abgebildet. Das System schwingt auf, gezeigt wird dies in Abbildung \ref{2_e_plot_w_0_rauschquelle}. Es schwingt mit der Kreisfrequenz $\omega_R=\SI[per-mode=fraction]{2.549}{\kilo\radian\per\second} $, welche fast gleich der Kreisfrequenz $\omega_{\pi}=\SI[per-mode=fraction]{2.449}{\kilo\radian\per\second}$ ist. Die Abweichung beträgt nur $4\%$. Die Schwingung ist die physikalische Antwort auf die Phasenverschiebung von $180^{\circ}$ in der Strecke. Der Code zur Berechnung der Schwingfrequenz ist in \ref{code_2d} zu finden.
-    
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.9\textwidth]{graphix/2_e_model.png}
-        \caption{Blockschaltbild (Screenshot aus \textit{Simulink})}
-        \label{blockschaltbild_2e}
-    \end{figure}
+Um das reale System besser zu simulieren wird eine Rauschquelle als Störsignal eingefügt. 
+Die Rauschquelle wird dem Signal am Ausgang der Regelstrecke überlagert, bevor das Signal an den Eingang des Reglers rückgekoppelt wird. 
+In \textit{Simulink} gibt es dafür den Block \textit{Uniform Random Number}. Das erweiterte Model ist in Abbildung \ref{blockschaltbild_2e} abgebildet. 
+Das System schwingt auf, gezeigt wird dies in Abbildung \ref{2_e_plot_w_0_rauschquelle}. 
+Es schwingt mit der Kreisfrequenz $\omega_R=\SI[per-mode=fraction]{2.549}{\kilo\radian\per\second} $, welche fast gleich der Kreisfrequenz $\omega_{\pi}=\SI[per-mode=fraction]{2.449}{\kilo\radian\per\second}$ ist. 
+Die Abweichung beträgt nur $4\%$. Die Schwingung ist die physikalische Antwort auf die Phasenverschiebung von $180^{\circ}$ in der Strecke. 
+Der Code zur Berechnung der Schwingfrequenz ist in \ref{code_2d} zu finden.
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[trim=1.8cm 9.5cm 1.8cm 0.5cm, clip, width=\textwidth]{graphix/P_Regler_K_10.00_w_0.png}
-        \caption{\textit{Matlab}-Plot für $w(t)=0$ ohne Rauschquelle}
-        \label{2_d_plot_w_0}
-    \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{graphix/2_e_model.png}
+    \caption{Blockschaltbild (Screenshot aus \textit{Simulink})}
+    \label{blockschaltbild_2e}
+\end{figure}
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[trim=1.8cm 9.5cm 1.8cm 0.5cm, clip, width=\textwidth]{graphix/P_Regler_K_10.00_rauschen.png}
-        \caption{\textit{Matlab}-Plot für $w(t)=0$ mit Rauschquelle}
-        \label{2_e_plot_w_0_rauschquelle}
-    \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[trim=1.8cm 9.5cm 1.8cm 0.5cm, clip, width=\textwidth]{graphix/P_Regler_K_10.00_w_0.png}
+    \caption{\textit{Matlab}-Plot für $w(t)=0$ ohne Rauschquelle}
+    \label{2_d_plot_w_0}
+\end{figure}
 
-    \begin{sourcecode}[h]
-        \caption{\textit{Matlab}-Code zur Berechnung der Schwingfrequenz}
-        \begin{minted}{matlab}
+\begin{figure}[H]
+    \centering
+    \includegraphics[trim=1.8cm 9.5cm 1.8cm 0.5cm, clip, width=\textwidth]{graphix/P_Regler_K_10.00_rauschen.png}
+    \caption{\textit{Matlab}-Plot für $w(t)=0$ mit Rauschquelle}
+    \label{2_e_plot_w_0_rauschquelle}
+\end{figure}
+
+\begin{sourcecode}[h]
+    \caption{\textit{Matlab}-Code zur Berechnung der Schwingfrequenz}
+    \begin{minted}{matlab}
             % schwingfrequenz berechnen
             nullstellen = find(y(1:end-1) < 0 & y(2:end) >= 0);
 
@@ -160,5 +180,5 @@
             end                              
         \end{minted}
     \label{code_2d}
-    \end{sourcecode}
+\end{sourcecode}
 
