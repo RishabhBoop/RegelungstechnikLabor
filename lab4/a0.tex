@@ -79,15 +79,16 @@ Zur Berechnung wird die Übertragungsfunktion $G_s(s)$ in den Frequenzbereich tr
     \pi
 \end{equation}
 
-Durch Äquivalenzumformungen in Gleichung (\ref{eqn:umformung_in_re_im}) wird das Nennerpolynom der Übertragungsfunktion als Summe von Realteil und Imaginärteil dargestellt.
-TODO: ausführlicher erklären
+Durch Umformungen in Gleichung (\ref{eqn:umformung_in_re_im}) wird das Nennerpolynom der Übertragungsfunktion als Summe von Realteil und Imaginärteil dargestellt. Die Verstärkungsfaktoren und Zeitkonstanten werden nach Gleichung \ref{eqn:zeitkonstanten_params} definiert.
 
 \begin{equation}
     \begin{split}
-         & \frac{1}{(1+j \omega_{\pi} T_1)(1+j \omega_{\pi} T_2)(1+j \omega_{\pi} T_3)}= \frac{\pi}{k_1 k_2 k_3}  = \dots = \frac{1}{1-\omega^2 \cdot A + j \cdot (\omega \cdot B - \omega^3 \cdot C)} = \frac{1}{z} \\[1ex]
-        %  & z \in \mathbb{C}: \quad \operatorname{Re}(z)=1-\omega^2 \cdot A \quad \text{und} \quad \operatorname{Im}(z)=\omega \cdot B - \omega^3 \cdot C
-        %  & z \in \mathbb{C}: \quad \Re (z) = 1-\omega^2 \cdot A \quad \text{und} \quad \Im (z)=\omega \cdot B - \omega^3 \cdot C
-         & z \in \mathbb{C}: \quad \mathfrak{Re}(z) = 1-\omega^2 \cdot A \quad \text{und} \quad \mathfrak{Im}(z)=\omega \cdot B - \omega^3 \cdot C
+        \pi &= \prod_{n=1}^{3} \frac{k_n}{1+ j \omega_{\pi} T_n} = \frac{1}{(1+j \omega_{\pi} T_1)(1+j \omega_{\pi} T_2)(1+j \omega_{\pi} T_3)} \\
+        & = \frac{1}{(1+j\omega T_1 + j \omega T_2 + j^2 \omega^2 T_1 T_2)(1+j\omega T_3)} \\
+        & = \frac{1}{1+j\omega T_1 + j \omega T_2 - \omega^2T_1 T_2 + j \omega T_3 + j^2 \omega^2 T_1 T_3 + j^2 \omega^2 T_2 T_3 - j \omega T_1 T_2 T_3} \\
+        & = \frac{1}{1- \omega^2(T_1 T_2 + T_1 T_3 + T_2 T_3)+ j \omega (T_1 + T_2 + T_3)-j\omega^3 T_1 T_2 T_3  } \\
+        & := \frac{1}{1-\omega^2  A + j  (\omega  B - \omega^3  C)} := \frac{1}{z} \\[1ex]       
+        & z \in \mathbb{C}: \quad \mathfrak{Re}(z) = 1-\omega^2 \cdot A \quad \text{und} \quad \mathfrak{Im}(z)=\omega \cdot B - \omega^3 \cdot C
     \end{split}
     \label{eqn:umformung_in_re_im}
 \end{equation}
